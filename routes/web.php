@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+route::get('admin',[AdminController::class,'index']);
+route::post('admin/auth',[AdminController::class,'auth'])->name('admin.auth');
+
+route::group(['middleware'=>'adminAuth'], function(){
+    route::get('admin/dashboard',[AdminController::class,'dashboard']);
+    route::get('admin/category',[CategoryController::class,'index']);
+    route::get('admin/manageCategory',[CategoryController::class,'manageCategory']);
 });
