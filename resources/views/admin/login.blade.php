@@ -24,7 +24,7 @@
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="{{asset('adminAssets/images/icon/logo.png')}}" alt="CoolAdmin">
+                                {{Config::get('constants.SITE_NAME')}}
                             </a>
                         </div>
                         <div class="login-form">

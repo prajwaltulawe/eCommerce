@@ -26,4 +26,10 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/dashboard',[AdminController::class,'dashboard']);
     route::get('admin/category',[CategoryController::class,'index']);
     route::get('admin/manageCategory',[CategoryController::class,'manageCategory']);
+    Route::get('admin/logout', function () {
+        session()->put('ADMIN_LOGIN');
+        session()->put('ADMIN_ID');
+        session()->flash('error', 'Sucessfully Logged Out..!');
+        return redirect('admin');
+    });
 });
