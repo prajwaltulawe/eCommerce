@@ -12,9 +12,9 @@ class AdminController extends Controller
     public function index(Request $req)
     {
         if ($req->session()->has('ADMIN_LOGIN') ) {
-            return redirect('admin/dashboard');
+            return redirect()->to('admin/dashboard');
         } else {
-            return redirect('admin');
+            return view('admin.login');
         }    
     }
 
@@ -30,14 +30,14 @@ class AdminController extends Controller
             if (hash::check($password,$result->password)) {
                 $req->session()->put('ADMIN_LOGIN', true);
                 $req->session()->put('ADMIN_ID', $result->id);
-                return redirect('admin/dashboard');
+                return redirect()->to('admin/dashboard');
             }else{
                 $req->session()->flash('error', 'Please enter correct password..!');
-                return redirect('admin');                
+                return redirect()->to('admin');                
             }
         }else {
             $req->session()->flash('error', 'Please enter valid login details..!');
-            return redirect('admin');
+            return redirect()->to('admin');
         }    
     }
 

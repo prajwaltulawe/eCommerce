@@ -147,11 +147,11 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class=" @yield('activeLinkDashboard') has-sub">
-                            <a href="dashboard">
+                            <a href="{{url('admin/dashboard')}}">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                         <li class="@yield('activeLinkCategory') has-sub">
-                            <a href="category">
+                            <a href="{{url('admin/category')}}">
                                 <i class="fas fa-tachometer-alt"></i>Category</a>
                         </li>
                     </ul>

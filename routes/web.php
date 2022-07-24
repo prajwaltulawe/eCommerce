@@ -25,7 +25,10 @@ route::post('admin/auth',[AdminController::class,'auth'])->name('admin.auth');
 route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/dashboard',[AdminController::class,'dashboard']);
     route::get('admin/category',[CategoryController::class,'index']);
-    route::get('admin/manageCategory',[CategoryController::class,'manageCategory']);
+    route::get('admin/category/manageCategory',[CategoryController::class,'manageCategory']);
+    route::get('admin/category/manageCategory/{id}',[CategoryController::class,'manageCategory']);
+    route::post('admin/category/manageCategoryProcess',[CategoryController::class,'manageCategoryProcess'])->name('category.manage');
+    route::get('admin/category/delete/{id}',[CategoryController::class,'deleteCategory']);
     Route::get('admin/logout', function () {
         session()->put('ADMIN_LOGIN');
         session()->put('ADMIN_ID');
@@ -33,3 +36,5 @@ route::group(['middleware'=>'adminAuth'], function(){
         return redirect('admin');
     });
 });
+
+
