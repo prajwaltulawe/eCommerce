@@ -13,9 +13,15 @@ class CategoryController extends Controller
         return view('admin/category',$result);
     }
 
-    public function manageCategory($id = '')
+    public function manageCategory($id = '', $status = '')
     {
-        if ($id > 0) {
+        if ($id > 0 && $status != '') {
+            $model = category::find($id);   
+            $model->categoryStatus = $status;
+            $model->save();
+            return redirect('admin/category');
+        }
+        elseif ($id > 0) {
             $arr= category::where(['id'=>$id])->get();
             
             $result['categoryName'] = $arr['0']->categoryName;
@@ -62,71 +68,5 @@ class CategoryController extends Controller
         
         $req->session()->flash('message','Category deleted..!');
         return redirect('admin/category');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(category $category)
-    {
-        //
     }
 }

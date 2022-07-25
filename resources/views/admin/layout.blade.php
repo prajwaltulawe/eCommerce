@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard</title>
+    <title>@yield('pageTitle')</title>
 
     <link href="{{asset('adminAssets/css/font-face.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('adminAssets/vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
@@ -152,7 +152,11 @@
                         </li>
                         <li class="@yield('activeLinkCategory') has-sub">
                             <a href="{{url('admin/category')}}">
-                                <i class="fas fa-tachometer-alt"></i>Category</a>
+                                <i class="fas fa-solid fa-align-justify"></i>Category</a>
+                        </li>
+                        <li class="@yield('activeLinkCoupon') has-sub">
+                            <a href="{{url('admin/coupon')}}">
+                                <i class="fas fa-solid fa-tags"></i>Coupon</a>
                         </li>
                     </ul>
                 </nav>

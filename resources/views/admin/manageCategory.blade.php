@@ -1,6 +1,7 @@
 @extends('admin/layout')
 
 @section('activeLinkCategory','active')
+@section('pageTitle','Manage Category')
 
 @section('cointainer')
 <div class="card">
