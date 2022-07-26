@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,6 +61,14 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/color/manageColor/{id}/{status}',[ColorController::class,'manageColor']);
     route::post('admin/color/manageColor',[ColorController::class,'manageColorProcess'])->name('color.manage');
     route::get('admin/color/delete/{id}',[ColorController::class,'deleteColor']);
+
+    // PRODUCT ROUTES
+    route::get('admin/product',[ProductController::class,'index']);
+    route::get('admin/product/manageProduct',[ProductController::class,'manageProduct']);
+    route::get('admin/product/manageProduct/{id}',[ProductController::class,'manageProduct']);
+    route::get('admin/product/manageProduct/{id}/{status}',[ProductController::class,'manageProduct']);
+    route::post('admin/product/manageProduct',[ProductController::class,'manageProductProcess'])->name('product.manage');
+    route::get('admin/product/delete/{id}',[ProductController::class,'deleteProduct']);
     
     // LOGOUT FUNCTION
     Route::get('admin/logout', function () {

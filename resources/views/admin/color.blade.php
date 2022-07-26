@@ -21,9 +21,9 @@
                 <td>{{$list->color}}</td>
                 <td>
                     @if($list->status == 1 )
-                        <a href="{{url('admin/size/manageColor')}}/{{$list->id}}/0"><button type="button" class="btn btn-success">Active</button></a>
+                        <a href="{{url('admin/color/manageColor')}}/{{$list->id}}/0"><button type="button" class="btn btn-success">Active</button></a>
                     @else
-                        <a href="{{url('admin/size/manageColor')}}/{{$list->id}}/1"><button type="button" class="btn btn-secondary">Deactivated</button></a>
+                        <a href="{{url('admin/color/manageColor')}}/{{$list->id}}/1"><button type="button" class="btn btn-secondary">Deactivated</button></a>
                     @endif
                 </td>
                 <td>

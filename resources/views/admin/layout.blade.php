@@ -164,7 +164,11 @@
                         </li>
                         <li class="@yield('activeLinkColor') has-sub">
                             <a href="{{url('admin/color')}}">
-                                <i class="fas fa-solid fa-palette"></i>Color</a>
+                            <i class="fas fa-solid fa-paint-brush"></i>Color</a>
+                        </li>
+                        <li class="@yield('activeLinkProduct') has-sub">
+                            <a href="{{url('admin/product')}}">
+                            <i class="fas fa-solid fa-square"></i>Product</a>
                         </li>
                     </ul>
                 </nav>

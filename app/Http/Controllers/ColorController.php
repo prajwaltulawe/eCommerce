@@ -39,7 +39,7 @@ class ColorController extends Controller
     public function manageColorProcess(Request $req)
     {
         $req->validate([
-            'color'=>'required|unique:color',
+            'color'=>'required|unique:colors',
         ]);
 
         if ($req->post('id') > 0) {

@@ -5,7 +5,7 @@
 
 @section('cointainer')
 <div class="card">
-    <div class="card-header">Manage Coupon</div>
+    <div class="card-header">Manage Color</div>
     <div class="card-body">
         <form action="{{route('color.manage')}}" method="post" novalidate="novalidate">
             @csrf
