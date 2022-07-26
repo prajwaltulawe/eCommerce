@@ -158,6 +158,14 @@
                             <a href="{{url('admin/coupon')}}">
                                 <i class="fas fa-solid fa-tags"></i>Coupon</a>
                         </li>
+                        <li class="@yield('activeLinkSize') has-sub">
+                            <a href="{{url('admin/size')}}">
+                                <i class="fas fa-solid fa-window-maximize"></i>Size</a>
+                        </li>
+                        <li class="@yield('activeLinkColor') has-sub">
+                            <a href="{{url('admin/color')}}">
+                                <i class="fas fa-solid fa-palette"></i>Color</a>
+                        </li>
                     </ul>
                 </nav>
             </div>

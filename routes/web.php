@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\SizeController;
+use App\Http\Controllers\ColorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +44,22 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/coupon/manageCoupon/{id}/{status}',[CouponController::class,'manageCoupon']);
     route::post('admin/coupon/manageCoupon',[CouponController::class,'manageCouponProcess'])->name('coupon.manage');
     route::get('admin/coupon/delete/{id}',[CouponController::class,'deleteCoupon']);
+
+    // SIZE ROUTES
+    route::get('admin/size',[SizeController::class,'index']);
+    route::get('admin/size/manageSize',[SizeController::class,'manageSize']);
+    route::get('admin/size/manageSize/{id}',[SizeController::class,'manageSize']);
+    route::get('admin/size/manageSize/{id}/{status}',[SizeController::class,'manageSize']);
+    route::post('admin/size/manageSize',[SizeController::class,'manageSizeProcess'])->name('size.manage');
+    route::get('admin/size/delete/{id}',[SizeController::class,'deleteSize']);
+    
+    // COLOR ROUTES
+    route::get('admin/color',[ColorController::class,'index']);
+    route::get('admin/color/manageColor',[ColorController::class,'manageColor']);
+    route::get('admin/color/manageColor/{id}',[ColorController::class,'manageColor']);
+    route::get('admin/color/manageColor/{id}/{status}',[ColorController::class,'manageColor']);
+    route::post('admin/color/manageColor',[ColorController::class,'manageColorProcess'])->name('color.manage');
+    route::get('admin/color/delete/{id}',[ColorController::class,'deleteColor']);
     
     // LOGOUT FUNCTION
     Route::get('admin/logout', function () {
