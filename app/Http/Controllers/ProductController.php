@@ -39,6 +39,10 @@ class ProductController extends Controller
             $result['technicalSpecs'] = $arr['0']->technicalSpecs;
             $result['uses'] = $arr['0']->uses;
             $result['warranty'] = $arr['0']->warranty;
+            $result['sizeId'] = $arr['0']->categoryId;
+            $result['colorId'] = $arr['0']->categoryId;
+            $result['qty'] = $arr['0']->qty;
+            $result['attrImage'] = $arr['0']->attrImage;
             $result['buttonStatus'] = "Edit Product"; 
         }
         else{
@@ -57,6 +61,8 @@ class ProductController extends Controller
             $result['warranty'] = "";
             $result['sizeId'] = "";
             $result['colorId'] = "";
+            $result['qty'] = "";
+            $result['attrImage'] = "";
             $result['buttonStatus'] = "Add Product"; 
         }
 
@@ -109,10 +115,33 @@ class ProductController extends Controller
         $model->technicalSpecs = $req->post('technicalSpecs');
         $model->uses = $req->post('uses');
         $model->warranty = $req->post('warranty');
-        $model->sizeId = $req->post('sizeId');
+/*         $model->sizeId = $req->post('sizeId');
         $model->colorId = $req->post('colorId');
+        $model->qty = $req->post('qty');
+        $model->attrImage = $req->post('attrImage'); */
         $model->save();
+
+        $pid = $req->post('id');
         
+        /* PRODUCT ATTRIBUTES */
+        $skuArr = $req->post('sku');
+        $mrpArr = $req->post('mrp');
+        $priceArr = $req->post('price');
+        $qtyArr = $req->post('qty');
+        $sizeArr = $req->post('size');
+        $colorArr = $req->post('color');
+        $attrImgArr = $req->post('attrImage');
+        foreach ($skuArr as $key=>$value) {
+            $productAttriArray['productId'] = $pid;
+            $productAttriArray['sku'] = $skuArr[$key];
+            $productAttriArray['mrp'] = $mrpArr[$key];
+            $productAttriArray['price'] = $priceArr[$key];
+            $productAttriArray['qty'] = $qtyArr[$key];
+            $productAttriArray['size'] = $sizeArr[$key];
+            $productAttriArray['color'] = $colorArr[$key];
+            $productAttriArray['attrImage'] = $attrImgArr[$key];
+            DB::table('productattr')->insert($productAttriArray);
+        }
         $req->session()->flash('message', $msg);
         return redirect('admin/product');
     }
