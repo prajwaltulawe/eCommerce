@@ -38,12 +38,30 @@
                     {{$message}}
                 @enderror
             </div>
-            <div class="form-group">
-                <label for="slug" class="control-label mb-1">Slug</label>
-                <input id="slug" name="slug" type="text" class="form-control" aria-required="true" aria-invalid="false" value="{{$slug}}">
-                @error('slug')
-                    {{$message}}
-                @enderror
+            <div class="form-group" style="display: flex;justify-content: space-between;">
+                <div class="form-group">
+                    <label for="slug" class="control-label mb-1">Slug</label>
+                    <input id="slug" name="slug" type="text" class="form-control col-12" aria-required="true" aria-invalid="false" value="{{$slug}}">
+                    @error('slug')
+                        {{$message}}
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="brand" class="control-label mb-1">Brand</label>
+                    <input id="brand" name="brand" type="text" class="form-control  col-12" aria-required="true" aria-invalid="false" value="{{$brand}}">
+                    @error('brand')
+                        {{$message}}
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="model" class="control-label mb-1">Model</label>
+                    <input id="model" name="model" type="text" class="form-control col-12" aria-required="true" aria-invalid="false" value="{{$model}}">
+                    @error('model')
+                        {{$message}}
+                    @enderror
+                </div>
             </div>
             <div class="form-group">
                 <label for="brand" class="control-label mb-1">Brand</label>
@@ -107,6 +125,68 @@
                 @error('warranty')
                     {{$message}}
                 @enderror
+            </div>
+            <div class="form-group" style="display: flex;justify-content: space-between;">
+                <div class="form-group">
+                    <label for="sku" class="control-label mb-1">SKU</label>
+                    <input id="sku" name="sku" type="text" class="form-control col-12" aria-required="true" aria-invalid="false">
+                    @error('slug')
+                        {{$message}}
+                    @enderror
+                </div>
+                
+                <div class="form-group">
+                    <label for="mrp" class="control-label mb-1">MRP</label>
+                    <input id="mrp" name="mrp" type="text" class="form-control col-12" aria-required="true" aria-invalid="false">
+                    @error('model')
+                        {{$message}}
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="price" class="control-label mb-1">Price</label>
+                    <input id="price" name="price" type="text" class="form-control  col-12" aria-required="true" aria-invalid="false">
+                    @error('brand')
+                        {{$message}}
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group" style="display: flex;justify-content: space-between;">
+                <div class="form-group">
+                    <label for="sizeId" class="control-label mb-1">Sizes</label>
+                    <select id="sizeId" name="sizeId" type="text" class="form-control col-12" aria-required="true" aria-invalid="false" required>
+                        <option value="0" selected>Select Size</option>                
+                        @foreach($size as $list)
+                            @if($sizeId == $list->id)
+                                <option value="{{$list->id}}" selected>{{$list->size}}</option>                
+                            @else
+                                <option value="{{$list->id}}">{{$list->size}}</option>
+                            @endif    
+                        @endforeach
+                    </select>             
+                    @error('sizeId')
+                        {{$message}}
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="colorId" class="control-label mb-1">Color</label>
+                    <select id="colorId" name="colorId" type="text" class="form-control col-12" aria-required="true" aria-invalid="false" required>
+                        <option value="0" selected>Select Color</option>                
+                        @foreach($color as $list)
+                            @if($colorId == $list->id)
+                                <option value="{{$list->id}}" selected>{{$list->color}}</option>                
+                            @else
+                                <option value="{{$list->id}}">{{$list->color}}</option>
+                            @endif    
+                        @endforeach
+                    </select>             
+                    @error('colorId')
+                        {{$message}}
+                    @enderror
+                </div>
+
+                
             </div>
             <input type="hidden" name="id" value="{{$id}}">
             <div>

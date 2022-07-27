@@ -55,10 +55,14 @@ class ProductController extends Controller
             $result['technicalSpecs'] = "";
             $result['uses'] = "";
             $result['warranty'] = "";
+            $result['sizeId'] = "";
+            $result['colorId'] = "";
             $result['buttonStatus'] = "Add Product"; 
         }
 
         $result['category'] = DB::table('categories')->where(['categoryStatus'=>1])->get();
+        $result['color'] = DB::table('colors')->where(['status'=>1])->get();
+        $result['size'] = DB::table('sizes')->where(['status'=>1])->get();
         return view('admin.manageProduct', $result);
     }
 
@@ -105,6 +109,8 @@ class ProductController extends Controller
         $model->technicalSpecs = $req->post('technicalSpecs');
         $model->uses = $req->post('uses');
         $model->warranty = $req->post('warranty');
+        $model->sizeId = $req->post('sizeId');
+        $model->colorId = $req->post('colorId');
         $model->save();
         
         $req->session()->flash('message', $msg);

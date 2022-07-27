@@ -9,6 +9,7 @@
     <link href="{{asset('adminAssets/css/font-face.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('adminAssets/vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('adminAssets/vendor/font-awesome-5/css/fontawesome-all.min.css')}}" rel="stylesheet" media="all">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" media="all">
     <link href="{{asset('adminAssets/vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet" media="all">
 
     <link href="{{asset('adminAssets/vendor/bootstrap-4.1/bootstrap.min.css')}}" rel="stylesheet" media="all">
@@ -168,7 +169,7 @@
                         </li>
                         <li class="@yield('activeLinkProduct') has-sub">
                             <a href="{{url('admin/product')}}">
-                            <i class="fas fa-solid fa-square"></i>Product</a>
+                            <i class="fa-brands fa-product-hunt"></i>Product</a>
                         </li>
                     </ul>
                 </nav>

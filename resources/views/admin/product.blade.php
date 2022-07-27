@@ -25,7 +25,7 @@
                 <td>{{$list->categoryId}}</td>
                 <td>{{$list->name}}</td>
                 <td>
-                    <img src="{{asset('storage/app/public/media/productImages/'.$list->image)}}" alt="" srcset="">
+                    <img src="{{asset('storage/media/productImages/'.$list->image)}}" alt="" srcset="" style="width: 100px">
                 </td>
                 <td>{{$list->brand}}</td>
                 <td>{{$list->model}}</td>
