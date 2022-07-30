@@ -70,6 +70,9 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::post('admin/product/manageProduct',[ProductController::class,'manageProductProcess'])->name('product.manage');
     route::get('admin/product/delete/{id}',[ProductController::class,'deleteProduct']);
     
+    // PRODUCT ATTRIBUTE ROUTES
+    route::get('admin/product/manageProduct/deleteAttr/{id}',[ProductController::class,'deleteProductAttrbute']);
+
     // LOGOUT FUNCTION
     Route::get('admin/logout', function () {
         session()->put('ADMIN_LOGIN');

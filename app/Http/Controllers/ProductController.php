@@ -39,10 +39,8 @@ class ProductController extends Controller
             $result['technicalSpecs'] = $arr['0']->technicalSpecs;
             $result['uses'] = $arr['0']->uses;
             $result['warranty'] = $arr['0']->warranty;
-            $result['sizeId'] = $arr['0']->categoryId;
-            $result['colorId'] = $arr['0']->categoryId;
-            $result['qty'] = $arr['0']->qty;
-            $result['attrImage'] = $arr['0']->attrImage;
+
+            $result['prodAttr'] = DB::table('productattr')->where(['productId'=> $id])->get();
             $result['buttonStatus'] = "Edit Product"; 
         }
         else{
@@ -59,10 +57,16 @@ class ProductController extends Controller
             $result['technicalSpecs'] = "";
             $result['uses'] = "";
             $result['warranty'] = "";
-            $result['sizeId'] = "";
-            $result['colorId'] = "";
-            $result['qty'] = "";
             $result['attrImage'] = "";
+
+            $result['prodAttr'][0]['id'] = "";
+            $result['prodAttr'][0]['sku'] = "";
+            $result['prodAttr'][0]['mrp'] = "";
+            $result['prodAttr'][0]['price'] = "";
+            $result['prodAttr'][0]['qty'] = "";
+            $result['prodAttr'][0]['size'] = "";
+            $result['prodAttr'][0]['color'] = "";
+            $result['prodAttr'][0]['attrImage'] = "";
             $result['buttonStatus'] = "Add Product"; 
         }
 
@@ -85,7 +89,24 @@ class ProductController extends Controller
             'name'=>'required',
             'slug'=>'required|unique:products,slug,'.$req->post('id'),
             'image'=>$imageValidation,
+            'attrImage.*' => 'mimes:jpeg,jpg,png',
         ]);
+
+        /* PRODUCT ATTRIBUTES */
+        $pAttId = $req->post('pAttId');
+        $skuArr = $req->post('sku');
+        $mrpArr = $req->post('mrp');
+        $priceArr = $req->post('price');
+        $qtyArr = $req->post('qty');
+        $sizeArr = $req->post('size');
+        $colorArr = $req->post('color');
+        foreach ($skuArr as $key=>$value) {
+            $check = DB::table('productattr')->where('sku','=',$skuArr[$key])->where('id','!=',$pAttId[$key])->get();
+            if (isset($check[0])) {
+                $req->session()->flash('skuError', $skuArr[$key] .' SKU ALREADY USED');
+                return redirect(request()->headers->get('referer'));
+            }
+        }
 
         if ($req->post('id') > 0) {
             $model = product::find($req->post('id'));   
@@ -115,35 +136,47 @@ class ProductController extends Controller
         $model->technicalSpecs = $req->post('technicalSpecs');
         $model->uses = $req->post('uses');
         $model->warranty = $req->post('warranty');
-/*         $model->sizeId = $req->post('sizeId');
-        $model->colorId = $req->post('colorId');
-        $model->qty = $req->post('qty');
-        $model->attrImage = $req->post('attrImage'); */
         $model->save();
 
         $pid = $req->post('id');
-        
-        /* PRODUCT ATTRIBUTES */
-        $skuArr = $req->post('sku');
-        $mrpArr = $req->post('mrp');
-        $priceArr = $req->post('price');
-        $qtyArr = $req->post('qty');
-        $sizeArr = $req->post('size');
-        $colorArr = $req->post('color');
-        $attrImgArr = $req->post('attrImage');
         foreach ($skuArr as $key=>$value) {
             $productAttriArray['productId'] = $pid;
+            $productAttriArray['id'] = $pAttId[$key];
             $productAttriArray['sku'] = $skuArr[$key];
             $productAttriArray['mrp'] = $mrpArr[$key];
             $productAttriArray['price'] = $priceArr[$key];
             $productAttriArray['qty'] = $qtyArr[$key];
             $productAttriArray['size'] = $sizeArr[$key];
             $productAttriArray['color'] = $colorArr[$key];
-            $productAttriArray['attrImage'] = $attrImgArr[$key];
-            DB::table('productattr')->insert($productAttriArray);
+
+            if($req->hasFile("attrImage.$key")){
+                $attrImg = $req->file("attrImage.$key");
+                $ext = $attrImg->extension();
+                $imageName = rand(1111111111, 2147483647).'.'.$ext;
+                $req->file("attrImage.$key")->storeAs('/public/media/productAttrImages', $imageName);
+                $productAttriArray['attrImage'] = $imageName;
+            }
+
+            if ($pAttId[$key] == "") {
+                DB::table('productattr')->insert($productAttriArray);
+            } else {
+                DB::table('productattr')->where(['id'=>$pAttId[$key]])->update($productAttriArray);
+            }
+            unset($productAttriArray['attrImage']);
         }
+
         $req->session()->flash('message', $msg);
         return redirect('admin/product');
+    }
+
+    public function deleteProductAttribute(Request $req, $id)
+    {
+        echo $id . "<pre>";
+        print_r($req);
+        die();
+        DB::table('productattr')->where('id', $id)->delete();
+        $req->session()->flash('message','Product Attribute deleted..!');
+        return redirect('admin/product/manageProduct/'.$id);
     }
 
     public function deleteProduct(Request $req, $id)

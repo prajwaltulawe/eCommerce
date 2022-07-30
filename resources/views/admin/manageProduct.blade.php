@@ -64,13 +64,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="image" class="control-label mb-1">Image</label>
-                <input id="image" name="image" type="file" class="form-control" aria-required="true" aria-invalid="false" value="{{$image}}" {{$imageRequired}}>
-                @error('image')
-                    {{$message}}
-                @enderror
-            </div>
-            <div class="form-group">
                 <label for="shortDesc" class="control-label mb-1">Short Description</label>
                 <input id="shortDesc" name="shortDesc" type="text" class="form-control" aria-required="true" aria-invalid="false" value="{{$shortDesc}}">
                 @error('shortDesc')
@@ -112,87 +105,111 @@
                     {{$message}}
                 @enderror
             </div>
-            
-            <div class="card-header">Product Attributes</div>
-            <div class="qualityAttributes">
-                <div class="form-group" style="display: flex;justify-content: space-between;">
-                    <div class="form-group">
-                        <label for="sku" class="control-label mb-1">SKU</label>
-                        <input id="sku" name="sku[]" type="text" class="form-control col-10" aria-required="true" aria-invalid="false" required>
-                        @error('slug')
-                            {{$message}}
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="mrp" class="control-label mb-1">MRP</label>
-                        <input id="mrp" name="mrp[]" type="text" class="form-control col-10" aria-required="true" aria-invalid="false">
-                        @error('model')
-                            {{$message}}
-                        @enderror
-                    </div>
 
-                    <div class="form-group">
-                        <label for="price" class="control-label mb-1">Price</label>
-                        <input id="price" name="price[]" type="text" class="form-control  col-10" aria-required="true" aria-invalid="false">
-                        @error('brand')
-                            {{$message}}
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="qty" class="control-label mb-1">Qty</label>
-                        <input id="qty" name="qty[]" type="text" class="form-control col-10" aria-required="true" aria-invalid="false" value="{{$qty}}">
-                        @error('qty')
-                            {{$message}}
-                        @enderror
-                    </div>
+            <div class="card-header">Product Images</div>
+            <div class="productImagesContainer" style="display: flex;justify-content: space-between;">
+                <div class="form-group col-8" style="padding: 0;">
+                    <label for="image" class="control-label mb-1">Image</label>
+                    <input id="image" name="image[]" type="file" class="form-control" aria-required="true" aria-invalid="false" {{$imageRequired}}>
+                    @error('image')
+                    {{$message}}
+                    @enderror
                 </div>
-                <div class="form-group" style="display: flex;justify-content: space-between;">
-                    <div class="form-group col-4" style="padding: 0;">
-                        <label for="size" class="control-label mb-1">Sizes</label>
-                        <select id="size" name="size[]" type="text" class="form-control col-12" aria-required="true" aria-invalid="false">
-                            <option value="0" selected>Select Size</option>                
-                            @foreach($size as $list)
-                                @if($sizeId == $list->id)
-                                    <option value="{{$list->id}}" selected>{{$list->size}}</option>                
-                                @else
-                                    <option value="{{$list->id}}">{{$list->size}}</option>
-                                @endif    
-                            @endforeach
-                        </select>             
-                        @error('sizeId')
-                            {{$message}}
-                        @enderror
-                    </div>
-
-                    <div class="form-group col-4">
-                        <label for="color" class="control-label mb-1">Color</label>
-                        <select id="color" name="color[]" type="text" class="form-control col-12" aria-required="true" aria-invalid="false">
-                            <option value="0" selected>Select Color</option>                
-                            @foreach($color as $list)
-                                @if($colorId == $list->id)
-                                    <option value="{{$list->id}}" selected>{{$list->color}}</option>                
-                                @else
-                                    <option value="{{$list->id}}">{{$list->color}}</option>
-                                @endif    
-                            @endforeach
-                        </select>             
-                        @error('colorId')
-                            {{$message}}
-                        @enderror
-                    </div>
-
-                    <div class="form-group col-4">
-                        <label for="attrImage" class="control-label mb-1">Attribute Image</label>
-                        <input id="attrImage" name="attrImage[]" type="file" class="form-control col-12" aria-required="true" aria-invalid="false" value="{{$attrImage}}">
-                        @error('image')
-                            {{$message}}
-                        @enderror
-                    </div>
-                </div>
-                <hr>
+                <img src="{{asset('storage/media/productAttrImages/1992148713.jpg')}}" alt="" srcset="" class="mr-6 mt-4" style="width: 100px">
             </div>
+
+            <button class="btn btn-outline-success form-group" id="addAttriBtn" type="button" onclick="addMoreImages()">Add More</button>
+
+            <div class="card-header">Product Attributes</div>
+            <div class="qualityAttributesCointainer">
+                @foreach($prodAttr as $key=>$val)
+                <?php   $pAttArr = (array)$val; ?>
+                <div class="qualityAttributes mt-2" id="pAttArr{{$pAttArr['id']}}">
+                    <div class="form-group" style="display: flex;justify-content: space-between;">
+                        <input type="hidden" class="identifier" name="pAttId[]" value="{{$pAttArr['id']}}">
+                        <div class="form-group">
+                            <label for="sku" class="control-label mb-1">SKU</label>
+                            <input id="sku" name="sku[]" value="{{$pAttArr['sku']}}" type="text" class="form-control col-10" aria-required="true" aria-invalid="false" required>
+                            @error('slug')
+                                {{$message}}
+                            @enderror
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mrp" class="control-label mb-1">MRP</label>
+                            <input id="mrp" name="mrp[]" value="{{$pAttArr['mrp']}}" type="text" class="form-control col-10" aria-required="true" aria-invalid="false">
+                            @error('model')
+                                {{$message}}
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price" class="control-label mb-1">Price</label>
+                            <input id="price" name="price[]" value="{{$pAttArr['price']}}" type="text" class="form-control  col-10" aria-required="true" aria-invalid="false">
+                            @error('brand')
+                                {{$message}}
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="qty" class="control-label mb-1">Qty</label>
+                            <input id="qty" name="qty[]" value="{{$pAttArr['qty']}}" type="text" class="form-control col-10" aria-required="true" aria-invalid="false">
+                            @error('qty')
+                                {{$message}}
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: flex;justify-content: space-between;">
+                        <div class="form-group col-3" style="padding: 0;">
+                            <label for="size" class="control-label mb-1">Sizes</label>
+                            <select id="size" name="size[]" type="text" class="form-control col-12" aria-required="true" aria-invalid="false">
+                                <option value="0" selected>Select Size</option>                
+                                @foreach($size as $list)
+                                    @if($pAttArr['size'] == $list->id)
+                                        <option value="{{$list->id}}" selected>{{$list->size}}</option>                
+                                    @else
+                                        <option value="{{$list->id}}">{{$list->size}}</option>
+                                    @endif    
+                                @endforeach
+                            </select>             
+                            @error('sizeId')
+                                {{$message}}
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label for="color" class="control-label mb-1">Color</label>
+                            <select id="color" name="color[]" type="text" class="form-control col-12" aria-required="true" aria-invalid="false">
+                                <option value="0" selected>Select Color</option>                
+                                @foreach($color as $list)
+                                    @if($pAttArr['color'] == $list->id)
+                                        <option value="{{$list->id}}" selected>{{$list->color}}</option>                
+                                    @else
+                                        <option value="{{$list->id}}">{{$list->color}}</option>                
+                                    @endif    
+                                @endforeach
+                            </select>             
+                            @error('colorId')
+                                {{$message}}
+                            @enderror
+                        </div>
+                        
+                        <img src="{{asset('storage/media/productAttrImages/'.$pAttArr['attrImage'])}}" alt="" srcset="" style="width: 100px">
+                        <div class="form-group col-3">
+                            <label for="attrImage" class="control-label mb-1">Attribute Image</label>
+                            <input id="attrImage" name="attrImage[]" type="file" class="form-control col-12" aria-required="true" aria-invalid="false">
+                        </div>
+                    </div>
+                    <a href="{{url('admin/product/manageProduct/deleteAttr')}}/{{$pAttArr['id']}}"><button class="btn btn-outline-danger form-group" type="button" value="{{$pAttArr['id']}}">Delete Attribute</button></a>
+                    <hr>
+                </div>
+                @endforeach
+                    {{session('skuError')}}
+                @error('attrImage.*')
+                    {{$message}}
+                @enderror
+            </div>
+            
             <button class="btn btn-outline-success form-group" id="addAttriBtn" type="button" onclick="addMore()">Add More</button>
 
             <input type="hidden" name="id" value="{{$id}}">
@@ -209,11 +226,26 @@
 </a>
 
 <script>
-    var loopCount = 1;
+    var loopCountAttrImages = document.getElementsByClassName('qualityAttributes').length;
     function addMore(){
-        loopCount++;
-        var attriHtml = document.getElementsByClassName('qualityAttributes')[0].innerHTML;
-        $('.qualityAttributes').append(attriHtml);
+        loopCountAttrImages++;
+        var attriHtml = `<div class="qualityAttributes mt-2" id="pAttArr${loopCountAttrImages}">`;
+        attriHtml += document.getElementsByClassName('qualityAttributes')[0].innerHTML;
+        attriHtml += "</div>";
+        var temp = document.getElementsByClassName('identifier')[0].value; 
+        var newElement = attriHtml.replace(`<input type="hidden" class="identifier" name="pAttId[]" value="${temp}">`, `<input type="hidden" class="identifier" name="pAttId[]" value="">`); 
+        $('.qualityAttributesCointainer').append(newElement);
+    }
+
+    var loopCountImages = document.getElementsByClassName('qualityAttributes').length;
+    function addMoreImages(){
+        loopCountImages++;
+        var attriHtml = `<div class="productImagesContainer" style="display: flex;justify-content: space-between; id="pAttArr${loopCountImages}">`;
+        attriHtml += document.getElementsByClassName('productImagesContainer')[0].innerHTML;
+        attriHtml += "</div>";
+        var temp = document.getElementsByClassName('identifier')[0].value; 
+        var newElement = attriHtml.replace(`<input type="hidden" class="identifier" name="pAttId[]" value="${temp}">`, `<input type="hidden" class="identifier" name="pAttId[]" value="">`); 
+        $('.qualityAttributesCointainer').append(newElement);
     }
 </script>
 @endsection
