@@ -63,6 +63,16 @@
                     @enderror
                 </div>
             </div>
+            <div class="productImagesContainer" style="display: flex;justify-content: space-between; align-items: center;">
+                <div class="form-group col-8" style="padding: 0;">
+                    <label for="image" class="control-label mb-1 mt-1">Image</label>
+                    <input id="image" name="image" type="file" class="form-control" aria-required="true" aria-invalid="false" {{$imageRequired}}>
+                    @error('image')
+                    {{$message}}
+                    @enderror
+                </div>
+                <img src="{{asset('storage/media/productAttrImages/1992148713.jpg')}}" alt="" srcset="" class="mr-6 mt-4" style="width: 100px">
+            </div>
             <div class="form-group">
                 <label for="shortDesc" class="control-label mb-1">Short Description</label>
                 <input id="shortDesc" name="shortDesc" type="text" class="form-control" aria-required="true" aria-invalid="false" value="{{$shortDesc}}">
@@ -107,18 +117,23 @@
             </div>
 
             <div class="card-header">Product Images</div>
-            <div class="productImagesContainer" style="display: flex;justify-content: space-between;">
-                <div class="form-group col-8" style="padding: 0;">
-                    <label for="image" class="control-label mb-1">Image</label>
-                    <input id="image" name="image[]" type="file" class="form-control" aria-required="true" aria-invalid="false" {{$imageRequired}}>
-                    @error('image')
-                    {{$message}}
-                    @enderror
-                </div>
-                <img src="{{asset('storage/media/productAttrImages/1992148713.jpg')}}" alt="" srcset="" class="mr-6 mt-4" style="width: 100px">
+            <div class="productImages mt-2">
+                @foreach($prodImages as $key=>$val)
+                    <?php   $prodImagesArr = (array)$val; ?>
+                    <div class="productImagesContainer" style="display: flex;justify-content: space-between; align-items: center;">
+                        <input id="prodImageId" name="prodImageId[]" value="{{$prodImagesArr['id']}}" type="hidden">
+                        <div class="form-group col-8" style="padding: 0;">
+                            <input id="prodImage" name="prodImage[]" type="file" class="form-control" aria-required="true" aria-invalid="false">
+                        </div>
+                        @if(isset($prodImagesArr['id']))
+                            <a href="{{url('admin/product/editProduct/deleteImage')}}/{{$prodImagesArr['id']}}"><button class="btn btn-outline-danger form-group mt-2" type="button" >Delete Image</button></a>
+                        @endif 
+                        <img src="{{asset('storage/media/productImages/'.$prodImagesArr['image'])}}" alt="" srcset="" class="mr-6 mt-4" style="width: 100px">
+                    </div>
+                @endforeach
             </div>
 
-            <button class="btn btn-outline-success form-group" id="addAttriBtn" type="button" onclick="addMoreImages()">Add More</button>
+            <button class="btn btn-outline-success form-group" id="addAttriBtn" type="button" onclick="addMoreImages()">Add</button>
 
             <div class="card-header">Product Attributes</div>
             <div class="qualityAttributesCointainer">
@@ -200,7 +215,7 @@
                             <input id="attrImage" name="attrImage[]" type="file" class="form-control col-12" aria-required="true" aria-invalid="false">
                         </div>
                     </div>
-                    <a href="{{url('admin/product/manageProduct/deleteAttr')}}/{{$pAttArr['id']}}"><button class="btn btn-outline-danger form-group" type="button" value="{{$pAttArr['id']}}">Delete Attribute</button></a>
+                    <a href="{{url('admin/product/editProduct/deleteAttr')}}/{{$pAttArr['id']}}"><button class="btn btn-outline-danger form-group" type="button" value="{{$pAttArr['id']}}">Delete Attribute</button></a>
                     <hr>
                 </div>
                 @endforeach
@@ -237,15 +252,22 @@
         $('.qualityAttributesCointainer').append(newElement);
     }
 
-    var loopCountImages = document.getElementsByClassName('qualityAttributes').length;
+    var loopCountImages = document.getElementsByClassName('productImagesContainer').length;
     function addMoreImages(){
         loopCountImages++;
-        var attriHtml = `<div class="productImagesContainer" style="display: flex;justify-content: space-between; id="pAttArr${loopCountImages}">`;
-        attriHtml += document.getElementsByClassName('productImagesContainer')[0].innerHTML;
-        attriHtml += "</div>";
-        var temp = document.getElementsByClassName('identifier')[0].value; 
-        var newElement = attriHtml.replace(`<input type="hidden" class="identifier" name="pAttId[]" value="${temp}">`, `<input type="hidden" class="identifier" name="pAttId[]" value="">`); 
-        $('.qualityAttributesCointainer').append(newElement);
+        var attriHtml = `<div class="productImagesContainer" style="display: flex;justify-content: space-between; align-items: center;" id="pImgArr${loopCountImages}">
+                            <input id="" name="prodImageId[]" type="hidden">     
+                            <div class="form-group col-8" style="padding: 0;">
+                                <input id="prodImage" name="prodImage[]" type="file" class="form-control" aria-required="true" aria-invalid="false" {{$imageRequired}}>
+                            </div>
+                            <button class="btn btn-outline-danger form-group mt-5" type="button" onclick="deleteImage(this.parentElement.id)">Delete Image</button>
+                        </div>`;
+        var newElement = attriHtml; 
+        $('.productImages').append(newElement);
+    }
+
+    function deleteImage(ele){
+        document.getElementById(ele).remove();
     }
 </script>
 @endsection

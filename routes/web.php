@@ -69,9 +69,12 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/product/manageProduct/{id}/{status}',[ProductController::class,'manageProduct']);
     route::post('admin/product/manageProduct',[ProductController::class,'manageProductProcess'])->name('product.manage');
     route::get('admin/product/delete/{id}',[ProductController::class,'deleteProduct']);
-    
+
+    // PRODUCT IMAGES ROUTES
+    route::get('admin/product/editProduct/deleteImage/{id}',[ProductController::class,'deleteProductImage']);
+
     // PRODUCT ATTRIBUTE ROUTES
-    route::get('admin/product/manageProduct/deleteAttr/{id}',[ProductController::class,'deleteProductAttrbute']);
+    route::get('admin/product/editProduct/deleteAttr/{id}',[ProductController::class,'deleteProductAttr']);
 
     // LOGOUT FUNCTION
     Route::get('admin/logout', function () {

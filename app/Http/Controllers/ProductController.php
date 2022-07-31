@@ -41,6 +41,7 @@ class ProductController extends Controller
             $result['warranty'] = $arr['0']->warranty;
 
             $result['prodAttr'] = DB::table('productattr')->where(['productId'=> $id])->get();
+            $result['prodImages'] = DB::table('productimages')->where(['productId'=>$id])->get();
             $result['buttonStatus'] = "Edit Product"; 
         }
         else{
@@ -57,6 +58,7 @@ class ProductController extends Controller
             $result['technicalSpecs'] = "";
             $result['uses'] = "";
             $result['warranty'] = "";
+            $result['prodImages'][0]['image'] = "";
             $result['attrImage'] = "";
 
             $result['prodAttr'][0]['id'] = "";
@@ -90,6 +92,7 @@ class ProductController extends Controller
             'slug'=>'required|unique:products,slug,'.$req->post('id'),
             'image'=>$imageValidation,
             'attrImage.*' => 'mimes:jpeg,jpg,png',
+            'prodImage.*' => 'mimes:jpeg,jpg,png',
         ]);
 
         /* PRODUCT ATTRIBUTES */
@@ -165,18 +168,42 @@ class ProductController extends Controller
             unset($productAttriArray['attrImage']);
         }
 
+        /* PRODUCT IMAGES */
+        $prodImages = $req->post('prodImageId');
+        foreach ($prodImages as $key => $value) { 
+            $prodImage['productId'] = $pid;
+            if($req->hasFile("prodImage.$key")){
+                $prodImg = $req->file("prodImage.$key");
+                $ext = $prodImg->extension();
+                $imageName = rand(1111111111, 2147483647).'.'.$ext;
+                $req->file("prodImage.$key")->storeAs('/public/media/productImages', $imageName);
+                $prodImage['image'] = $imageName;
+            }
+
+            if ($prodImages[$key] == "") {
+                DB::table('productimages')->insert($prodImage);
+            } else {
+                DB::table('productimages')->where(['id'=>$prodImages[$key]])->update($prodImage);
+            }
+            unset($prodImage['image']);
+        }
+
         $req->session()->flash('message', $msg);
         return redirect('admin/product');
     }
 
-    public function deleteProductAttribute(Request $req, $id)
+    public function deleteProductImage(Request $req, $id)
     {
-        echo $id . "<pre>";
-        print_r($req);
-        die();
-        DB::table('productattr')->where('id', $id)->delete();
+        DB::table('productimages')->where(['id'=>$id])->delete();
+        $req->session()->flash('message','Product Image deleted..!');
+        return redirect('admin/product');
+    }
+
+    public function deleteProductAttr(Request $req, $id)
+    {
+        DB::table('productattr')->where(['id'=>$id])->delete();
         $req->session()->flash('message','Product Attribute deleted..!');
-        return redirect('admin/product/manageProduct/'.$id);
+        return redirect('admin/product');
     }
 
     public function deleteProduct(Request $req, $id)
