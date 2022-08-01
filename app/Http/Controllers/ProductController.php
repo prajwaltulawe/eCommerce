@@ -41,6 +41,7 @@ class ProductController extends Controller
             $result['warranty'] = $arr['0']->warranty;
 
             $result['prodAttr'] = DB::table('productattr')->where(['productId'=> $id])->get();
+            $result['brands'] = DB::table('brands')->where(['id'=> $id])->get();
             $result['prodImages'] = DB::table('productimages')->where(['productId'=>$id])->get();
             $result['buttonStatus'] = "Edit Product"; 
         }
@@ -59,6 +60,7 @@ class ProductController extends Controller
             $result['uses'] = "";
             $result['warranty'] = "";
             $result['prodImages'][0]['image'] = "";
+            $result['prodImages'][0]['id'] = "";
             $result['attrImage'] = "";
 
             $result['prodAttr'][0]['id'] = "";
@@ -73,6 +75,7 @@ class ProductController extends Controller
         }
 
         $result['category'] = DB::table('categories')->where(['categoryStatus'=>1])->get();
+        $result['brands'] = DB::table('brands')->where(['status'=>1])->get();
         $result['color'] = DB::table('colors')->where(['status'=>1])->get();
         $result['size'] = DB::table('sizes')->where(['status'=>1])->get();
         return view('admin.manageProduct', $result);

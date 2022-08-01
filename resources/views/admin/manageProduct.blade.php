@@ -46,11 +46,19 @@
                         {{$message}}
                     @enderror
                 </div>
-
                 <div class="form-group">
                     <label for="brand" class="control-label mb-1">Brand</label>
-                    <input id="brand" name="brand" type="text" class="form-control  col-12" aria-required="true" aria-invalid="false" value="{{$brand}}">
-                    @error('brand')
+                    <select id="brand" name="brand" type="text" class="form-control col-12" aria-required="true" aria-invalid="false">
+                        <option value="0" selected>Select Brand</option>                
+                        @foreach($brands as $list)
+                            @if($brand == $list->id)
+                                <option value="{{$list->id}}" selected>{{$list->brand}}</option>                
+                            @else
+                                <option value="{{$list->id}}">{{$list->brand}}</option>                
+                            @endif    
+                        @endforeach
+                    </select>             
+                    @error('brandId')
                         {{$message}}
                     @enderror
                 </div>

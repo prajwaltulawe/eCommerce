@@ -159,6 +159,10 @@
                             <a href="{{url('admin/coupon')}}">
                                 <i class="fas fa-solid fa-tags"></i>Coupon</a>
                         </li>
+                        <li class="@yield('activeLinkBrand') has-sub">
+                            <a href="{{url('admin/brand')}}">
+                                <i class="fa-brands fa-bandcamp"></i>Brand</a>
+                        </li>
                         <li class="@yield('activeLinkSize') has-sub">
                             <a href="{{url('admin/size')}}">
                                 <i class="fas fa-solid fa-window-maximize"></i>Size</a>

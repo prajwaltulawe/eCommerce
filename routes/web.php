@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
@@ -46,6 +47,14 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::post('admin/coupon/manageCoupon',[CouponController::class,'manageCouponProcess'])->name('coupon.manage');
     route::get('admin/coupon/delete/{id}',[CouponController::class,'deleteCoupon']);
 
+    // BRAND ROUTES
+    route::get('admin/brand',[BrandController::class,'index']);
+    route::get('admin/brand/manageBrand',[BrandController::class,'manageBrand']);
+    route::get('admin/brand/manageBrand/{id}',[BrandController::class,'manageBrand']);
+    route::get('admin/brand/manageBrand/{id}/{status}',[BrandController::class,'manageBrand']);
+    route::post('admin/brand/manageBrand',[BrandController::class,'manageBrandProcess'])->name('brand.manage');
+    route::get('admin/brand/delete/{id}',[BrandController::class,'deleteBrand']);
+    
     // SIZE ROUTES
     route::get('admin/size',[SizeController::class,'index']);
     route::get('admin/size/manageSize',[SizeController::class,'manageSize']);
