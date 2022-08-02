@@ -39,6 +39,13 @@ class ProductController extends Controller
             $result['technicalSpecs'] = $arr['0']->technicalSpecs;
             $result['uses'] = $arr['0']->uses;
             $result['warranty'] = $arr['0']->warranty;
+            $result['leadTime'] = $arr['0']->leadTime;
+            $result['tax'] = $arr['0']->tax;
+            $result['taxType'] = $arr['0']->taxType;
+            $result['isPromo'] = $arr['0']->isPromo;
+            $result['isFeatured'] = $arr['0']->isFeatured;
+            $result['isDiscounted'] = $arr['0']->isDiscounted;
+            $result['isTrending'] = $arr['0']->isTrending;
 
             $result['prodAttr'] = DB::table('productattr')->where(['productId'=> $id])->get();
             $result['brands'] = DB::table('brands')->where(['id'=> $id])->get();
@@ -59,6 +66,14 @@ class ProductController extends Controller
             $result['technicalSpecs'] = "";
             $result['uses'] = "";
             $result['warranty'] = "";
+            $result['leadTime'] = "";
+            $result['tax'] = "";
+            $result['taxType'] = "";
+            $result['isPromo'] = "";
+            $result['isFeatured'] = "";
+            $result['isDiscounted'] = "";
+            $result['isTrending'] = "";
+
             $result['prodImages'][0]['image'] = "";
             $result['prodImages'][0]['id'] = "";
             $result['attrImage'] = "";
@@ -142,6 +157,9 @@ class ProductController extends Controller
         $model->technicalSpecs = $req->post('technicalSpecs');
         $model->uses = $req->post('uses');
         $model->warranty = $req->post('warranty');
+        $model->leadTime = $req->post('leadTime');
+        $model->tax = $req->post('tax');
+        $model->taxType = $req->post('taxType');
         $model->save();
 
         $pid = $req->post('id');
@@ -217,4 +235,37 @@ class ProductController extends Controller
         $req->session()->flash('message','Product deleted..!');
         return redirect('admin/product');
     }
+
+    public function editTrendingStatus($id, $status)
+    {
+        $model = product::find($id);   
+        $model->isTrending = $status;
+        $model->save();
+        return redirect('admin/product/manageProduct/'.$id);
+    } 
+
+    public function editDiscountStatus($id, $status)
+    {
+        $model = product::find($id);   
+        $model->isDiscounted = $status;
+        $model->save();
+        return redirect('admin/product/manageProduct/'.$id);
+    } 
+
+    public function editFeaturedStatus($id , $status)
+    {
+        $model = product::find($id);   
+        $model->isFeatured = $status;
+        $model->save();
+        return redirect('admin/product/manageProduct/'.$id);
+    } 
+
+    public function editPromoStatus($id, $status)
+    {
+        $model = product::find($id);   
+        $model->isPromo = $status;
+        $model->save();
+        return redirect('admin/product/manageProduct/'.$id);
+    }   
 }
+

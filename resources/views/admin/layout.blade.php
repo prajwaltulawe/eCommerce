@@ -14,6 +14,7 @@
 
     <link href="{{asset('adminAssets/vendor/bootstrap-4.1/bootstrap.min.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('adminAssets/css/theme.css')}}" rel="stylesheet" media="all">
+    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
 
 </head>
 

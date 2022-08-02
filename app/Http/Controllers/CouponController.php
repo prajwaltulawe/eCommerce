@@ -28,6 +28,9 @@ class CouponController extends Controller
             $result['title'] = $arr['0']->title;
             $result['code'] = $arr['0']->code;
             $result['value'] = $arr['0']->value; 
+            $result['type'] = $arr['0']->type; 
+            $result['minOrderAmount'] = $arr['0']->minOrderAmount; 
+            $result['isOneTime'] = $arr['0']->isOneTime; 
             $result['buttonStatus'] = "Edit Coupon"; 
         }
         else{
@@ -35,6 +38,9 @@ class CouponController extends Controller
             $result['title'] = '';
             $result['code'] = '';
             $result['value'] = ''; 
+            $result['type'] = '';
+            $result['minOrderAmount'] = '';
+            $result['isOneTime'] = '';
             $result['buttonStatus'] = "Add Coupon"; 
         }
         return view('admin.manageCoupon', $result);
@@ -59,6 +65,8 @@ class CouponController extends Controller
         $model->title = $req->post('title');
         $model->code = $req->post('code');
         $model->value = $req->post('value');
+        $model->type = $req->post('type');
+        $model->minOrderAmount = $req->post('minOrderAmount');
         $model->status = 1;
         $model->save();
         
@@ -74,4 +82,12 @@ class CouponController extends Controller
         $req->session()->flash('message','Coupon deleted..!');
         return redirect('admin/coupon');
     }
+
+    public function editOneTimeStatus($id, $status)
+    {
+        $model = coupon::find($id);   
+        $model->isOneTime = $status;
+        $model->save();
+        return redirect('admin/coupon/manageCoupon/'.$id);
+    }   
 }

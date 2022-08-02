@@ -46,6 +46,8 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/coupon/manageCoupon/{id}/{status}',[CouponController::class,'manageCoupon']);
     route::post('admin/coupon/manageCoupon',[CouponController::class,'manageCouponProcess'])->name('coupon.manage');
     route::get('admin/coupon/delete/{id}',[CouponController::class,'deleteCoupon']);
+    route::get('admin/coupon/manageCoupon/isOneTime/{id}/{status}',[CouponController::class,'editOneTimeStatus']);
+
 
     // BRAND ROUTES
     route::get('admin/brand',[BrandController::class,'index']);
@@ -84,6 +86,11 @@ route::group(['middleware'=>'adminAuth'], function(){
 
     // PRODUCT ATTRIBUTE ROUTES
     route::get('admin/product/editProduct/deleteAttr/{id}',[ProductController::class,'deleteProductAttr']);
+    route::get('admin/product/manageProduct/isPromo/{id}/{status}',[ProductController::class,'editPromoStatus']);
+    route::get('admin/product/manageProduct/isFeatured/{id}/{status}',[ProductController::class,'editFeaturedStatus']);
+    route::get('admin/product/manageProduct/isDiscounted/{id}/{status}',[ProductController::class,'editDiscountStatus']);
+    route::get('admin/product/manageProduct/isTrending/{id}/{status}',[ProductController::class,'editTrendingStatus']);
+
 
     // LOGOUT FUNCTION
     Route::get('admin/logout', function () {

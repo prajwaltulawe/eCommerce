@@ -62,7 +62,6 @@
                         {{$message}}
                     @enderror
                 </div>
-
                 <div class="form-group">
                     <label for="model" class="control-label mb-1">Model</label>
                     <input id="model" name="model" type="text" class="form-control col-12" aria-required="true" aria-invalid="false" value="{{$model}}">
@@ -123,7 +122,63 @@
                     {{$message}}
                 @enderror
             </div>
-
+            <div class="form-group" style="display: flex;justify-content: space-between;">
+                <div class="form-group">
+                    <label for="leadTime" class="control-label mb-1">Lead Time</label>
+                    <input id="leadTime" name="leadTime" type="text" class="form-control col-12" aria-required="true" aria-invalid="false" value="{{$leadTime}}">
+                    @error('leadTime')
+                        {{$message}}
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label for="tax" class="control-label mb-1"> Tax</label>
+                    <input id="tax" name="tax" type="text" class="form-control col-12" aria-required="true" aria-invalid="false" value="{{$tax}}">
+                    @error('tax')
+                        {{$message}}
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label for="taxType" class="control-label mb-1">Tax Type</label>
+                    <input id="taxType" name="taxType" type="text" class="form-control col-12" aria-required="true" aria-invalid="false" value="{{$taxType}}">
+                    @error('model')
+                        {{$message}}
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group" style="display: flex;justify-content: space-between;">
+                <div class="form-group">
+                    <label for="isPromo" class="control-label mb-1">Promotional :</label>
+                    @if($isPromo == 1 )
+                        <a href="{{url('admin/product/manageProduct/isPromo')}}/{{$id}}/0"><button type="button" class="btn btn-success ml-2">Yes</button></a>
+                    @else
+                        <a href="{{url('admin/product/manageProduct/isPromo')}}/{{$id}}/1"><button type="button" class="btn btn-secondary ml-2">No</button></a>
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label for="isFeatured" class="control-label mb-1"> Featured :</label>
+                    @if($isFeatured == 1 )
+                        <a href="{{url('admin/product/manageProduct/isFeatured')}}/{{$id}}/0"><button type="button" class="btn btn-success ml-2">Yes</button></a>
+                    @else
+                        <a href="{{url('admin/product/manageProduct/isFeatured')}}/{{$id}}/1"><button type="button" class="btn btn-secondary ml-2">No</button></a>
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label for="isDiscounted" class="control-label mb-1">Discounted :</label>
+                    @if($isDiscounted == 1 )
+                        <a href="{{url('admin/product/manageProduct/isDiscounted')}}/{{$id}}/0"><button type="button" class="btn btn-success ml-2">Yes</button></a>
+                    @else
+                        <a href="{{url('admin/product/manageProduct/isDiscounted')}}/{{$id}}/1"><button type="button" class="btn btn-secondary ml-2">No</button></a>
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label for="isTrending" class="control-label mb-1">Trending :</label>
+                    @if($isTrending == 1 )
+                        <a href="{{url('admin/product/manageProduct/isTrending')}}/{{$id}}/0"><button type="button" class="btn btn-success ml-2">Yes</button></a>
+                    @else
+                        <a href="{{url('admin/product/manageProduct/isTrending')}}/{{$id}}/1"><button type="button" class="btn btn-secondary ml-2">No</button></a>
+                    @endif
+                </div>
+            </div>
             <div class="card-header">Product Images</div>
             <div class="productImages mt-2">
                 @foreach($prodImages as $key=>$val)
@@ -249,6 +304,9 @@
 </a>
 
 <script>
+    CKEDITOR.replace('shortDesc');
+    CKEDITOR.replace('desc');
+    CKEDITOR.replace('technicalSpecs');
     var loopCountAttrImages = document.getElementsByClassName('qualityAttributes').length;
     function addMore(){
         loopCountAttrImages++;
