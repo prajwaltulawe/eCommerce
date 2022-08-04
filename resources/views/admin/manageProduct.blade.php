@@ -78,7 +78,7 @@
                     {{$message}}
                     @enderror
                 </div>
-                <img src="{{asset('storage/media/productAttrImages/1992148713.jpg')}}" alt="" srcset="" class="mr-6 mt-4" style="width: 100px">
+                <img src="{{asset('storage/media/productImages/'.$image)}}" alt="" srcset="" class="mr-6 mt-4" style="width: 100px">
             </div>
             <div class="form-group">
                 <label for="shortDesc" class="control-label mb-1">Short Description</label>

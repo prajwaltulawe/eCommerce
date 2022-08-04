@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
@@ -43,9 +45,7 @@ class BrandController extends Controller
     public function manageBrandProcess(Request $req)
     {
 
-/*         echo '<pre>';
-        print_r($req->post());
-        die(); */
+        $id = $req->post('id');
         if ($req->post('id') > 0) {
             $imageValidation = 'mimes:jpeg,jpg,png';
         } else {
@@ -77,6 +77,10 @@ class BrandController extends Controller
 
     public function deleteBrand(Request $req, $id)
     {
+        $imageArr = DB::table('brands')->where(['id'=>$id])->get();
+        if (Storage::exists('/public/media/brandImages/'.$imageArr[0]->attrImage)) {
+            Storage::delete('/public/media/brandImages/'.$imageArr[0]->attrImage);
+        }
         $model = brand::find($id);
         $model->delete();
         

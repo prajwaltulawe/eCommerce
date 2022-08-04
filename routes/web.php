@@ -8,6 +8,7 @@ use App\Http\Controllers\TaxController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CoustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -100,6 +101,10 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/product/manageProduct/isDiscounted/{id}/{status}',[ProductController::class,'editDiscountStatus']);
     route::get('admin/product/manageProduct/isTrending/{id}/{status}',[ProductController::class,'editTrendingStatus']);
 
+    // COUSTOMER ROUTES
+    route::get('admin/coustomer',[CoustomerController::class,'index']);
+    route::get('admin/coustomer/manageCoustomerStatus/{id}/{status}',[CoustomerController::class,'editCoustomerStatus']);
+    route::get('admin/coustomer/viewCoustomerStatus/{id}',[CoustomerController::class,'viewCoustomerStatus']);
 
     // LOGOUT FUNCTION
     Route::get('admin/logout', function () {

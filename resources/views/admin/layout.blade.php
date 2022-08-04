@@ -180,6 +180,10 @@
                             <a href="{{url('admin/product')}}">
                             <i class="fa-brands fa-product-hunt"></i>Product</a>
                         </li>
+                        <li class="@yield('activeLinkCoustomers') has-sub">
+                            <a href="{{url('admin/coustomer')}}">
+                            <i class="fa-solid fa-user"></i>Coustomers</a>
+                        </li>
                     </ul>
                 </nav>
             </div>

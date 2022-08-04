@@ -6,6 +6,7 @@ use App\Models\category;
 use App\Models\product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -184,6 +185,10 @@ class ProductController extends Controller
             if ($pAttId[$key] == "") {
                 DB::table('productattr')->insert($productAttriArray);
             } else {
+                $imageArr = DB::table('productattr')->where(['id'=>$pAttId[$key]])->get();
+                if (Storage::exists('/public/media/productAttrImages/'.$imageArr[0]->attrImage)) {
+                    Storage::delete('/public/media/productAttrImages/'.$imageArr[0]->attrImage);
+                }
                 DB::table('productattr')->where(['id'=>$pAttId[$key]])->update($productAttriArray);
             }
             unset($productAttriArray['attrImage']);
@@ -204,6 +209,10 @@ class ProductController extends Controller
             if ($prodImages[$key] == "") {
                 DB::table('productimages')->insert($prodImage);
             } else {
+                $imageArr = DB::table('productimages')->where(['id'=>$prodImages[$key]])->get();
+                if (Storage::exists('/public/media/productImages/'.$imageArr[0]->attrImage)) {
+                    Storage::delete('/public/media/productImages/'.$imageArr[0]->attrImage);
+                }
                 DB::table('productimages')->where(['id'=>$prodImages[$key]])->update($prodImage);
             }
             unset($prodImage['image']);
@@ -215,6 +224,10 @@ class ProductController extends Controller
 
     public function deleteProductImage(Request $req, $id)
     {
+        $imageArr = DB::table('productimages')->where(['id'=>$id])->get();
+        if (Storage::exists('/public/media/productImages/'.$imageArr[0]->image)) {
+            Storage::delete('/public/media/productImages/'.$imageArr[0]->image);
+        }
         DB::table('productimages')->where(['id'=>$id])->delete();
         $req->session()->flash('message','Product Image deleted..!');
         return redirect('admin/product');
@@ -222,6 +235,11 @@ class ProductController extends Controller
 
     public function deleteProductAttr(Request $req, $id)
     {
+        $imageArr = DB::table('productattr')->where(['id'=>$id])->get();
+        if (Storage::exists('/public/media/productAttrImages/'.$imageArr[0]->attrImage)) {
+            Storage::delete('/public/media/productAttrImages/'.$imageArr[0]->attrImage);
+        }
+
         DB::table('productattr')->where(['id'=>$id])->delete();
         $req->session()->flash('message','Product Attribute deleted..!');
         return redirect('admin/product');
@@ -230,6 +248,9 @@ class ProductController extends Controller
     public function deleteProduct(Request $req, $id)
     {
         $model = product::find($id);
+        if (Storage::exists('/public/media/productImages/'.$model->attrImage)) {
+            Storage::delete('/public/media/productImages/'.$model->attrImage);
+        }
         $model->delete();
         
         $req->session()->flash('message','Product deleted..!');
@@ -268,4 +289,3 @@ class ProductController extends Controller
         return redirect('admin/product/manageProduct/'.$id);
     }   
 }
-

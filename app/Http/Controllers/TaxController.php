@@ -23,7 +23,6 @@ class TaxController extends Controller
         }
         elseif ($id > 0) {
             $arr= tax::where(['id'=>$id])->get();
-            
             $result['id'] = $arr['0']->id;
             $result['taxValue'] = $arr['0']->taxValue; 
             $result['taxDesc'] = $arr['0']->taxDesc; 
@@ -41,14 +40,14 @@ class TaxController extends Controller
     public function manageTaxProcess(Request $req)
     {
         $req->validate([
-            'taxValue'=>'required|unique:taxValue',
+            'taxValue'=>'required|unique:taxes',
         ]);
 
         if ($req->post('id') > 0) {
             $model = tax::find($req->post('id'));   
             $msg = 'Tax Upadated..!';
         } else {
-            $model = new Tax();
+            $model = new tax();
             $msg = 'Tax Inserted..!';
         }
         
