@@ -164,6 +164,10 @@
                             <a href="{{url('admin/brand')}}">
                                 <i class="fa-brands fa-bandcamp"></i>Brand</a>
                         </li>
+                        <li class="@yield('activeLinkTax') has-sub">
+                            <a href="{{url('admin/tax')}}">
+                                <i class="fa-brands fa-bandcamp"></i>Tax</a>
+                        </li>
                         <li class="@yield('activeLinkSize') has-sub">
                             <a href="{{url('admin/size')}}">
                                 <i class="fas fa-solid fa-window-maximize"></i>Size</a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -26,15 +27,20 @@ class CategoryController extends Controller
             
             $result['categoryName'] = $arr['0']->categoryName;
             $result['categorySlug'] = $arr['0']->categorySlug;
+            $result['categoryParentId'] = $arr['0']->categoryParentId;
+            $result['categoryImage'] = $arr['0']->categoryImage;
             $result['id'] = $arr['0']->id;
             $result['buttonStatus'] = "Edit Record"; 
         }
         else{
             $result['categoryName'] = '';
             $result['categorySlug'] = '';
+            $result['categoryParentId'] = "";
+            $result['categoryImage'] = "";
             $result['id'] = '0';
             $result['buttonStatus'] = "Add Category"; 
         }
+        $result['category'] = DB::table('categories')->where(['categoryStatus'=>1])->where('id','!=',$id)->get();
         return view('admin.manageCategory', $result);
     }
 
@@ -42,6 +48,7 @@ class CategoryController extends Controller
     {
         $req->validate([
             'categoryName'=>'required',
+            'image'=>'mimes:jpeg,jpg,png',
             'categorySlug'=>'required|unique:categories,categorySlug,'.$req->post('id'),
         ]);
 
@@ -53,8 +60,17 @@ class CategoryController extends Controller
             $msg = 'Category Inserted..!';
         }
         
+        if ($req->hasfile('categoryImage')) {
+            $image = $req->file('categoryImage');
+            $ext = $image->extension();
+            $imageName = time().'.'.$ext;
+            $image->storeAs('/public/media/categoryImages', $imageName);
+            $model->categoryImage = $imageName;
+        }
+
         $model->categoryName = $req->post('categoryName');
         $model->categorySlug = $req->post('categorySlug');
+        $model->categoryParentId = $req->post('categoryParentId');
         $model->save();
         
         $req->session()->flash('message', $msg);

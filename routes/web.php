@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\TaxController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
@@ -56,7 +57,15 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/brand/manageBrand/{id}/{status}',[BrandController::class,'manageBrand']);
     route::post('admin/brand/manageBrand',[BrandController::class,'manageBrandProcess'])->name('brand.manage');
     route::get('admin/brand/delete/{id}',[BrandController::class,'deleteBrand']);
-    
+
+    // TAX ROUTES
+    route::get('admin/tax',[TaxController::class,'index']);
+    route::get('admin/tax/manageTax',[TaxController::class,'manageTax']);
+    route::get('admin/tax/manageTax/{id}',[TaxController::class,'manageTax']);
+    route::get('admin/tax/manageTax/{id}/{status}',[TaxController::class,'manageTax']);
+    route::post('admin/tax/manageTax',[TaxController::class,'manageTaxProcess'])->name('tax.manage');
+    route::get('admin/tax/delete/{id}',[TaxController::class,'deleteTax']);
+
     // SIZE ROUTES
     route::get('admin/size',[SizeController::class,'index']);
     route::get('admin/size/manageSize',[SizeController::class,'manageSize']);
