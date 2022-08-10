@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CouponController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\TaxController;
-use App\Http\Controllers\SizeController;
-use App\Http\Controllers\ColorController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CoustomerController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\TaxController;
+use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\CoustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +38,7 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/category/manageCategory',[CategoryController::class,'manageCategory']);
     route::get('admin/category/manageCategory/{id}',[CategoryController::class,'manageCategory']);
     route::get('admin/category/manageCategory/{id}/{status}',[CategoryController::class,'manageCategory']);
+    route::get('admin/category/setHomeDisplayStatus/{id}/{status}',[CategoryController::class,'setHomeDisplayStatus']);
     route::post('admin/category/manageCategoryProcess',[CategoryController::class,'manageCategoryProcess'])->name('category.manage');
     route::get('admin/category/delete/{id}',[CategoryController::class,'deleteCategory']);
 
@@ -56,6 +57,7 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/brand/manageBrand',[BrandController::class,'manageBrand']);
     route::get('admin/brand/manageBrand/{id}',[BrandController::class,'manageBrand']);
     route::get('admin/brand/manageBrand/{id}/{status}',[BrandController::class,'manageBrand']);
+    route::get('admin/brand/setHomeDisplayStatusBrand/{id}/{status}',[BrandController::class,'setHomeDisplayStatus']);
     route::post('admin/brand/manageBrand',[BrandController::class,'manageBrandProcess'])->name('brand.manage');
     route::get('admin/brand/delete/{id}',[BrandController::class,'deleteBrand']);
 

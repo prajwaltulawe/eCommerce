@@ -25,6 +25,17 @@
                     @enderror
                 </div>
                 <img src="{{asset('storage/media/brandImages/'.$image)}}" alt="" srcset="" class="mr-6 mt-4" style="width: 100px">
+                <div class="form-group col-8" style="padding: 0;">
+                    <label for="categoryImage" class="control-label mb-1"></label>    
+                    <div>
+                        <label for="isHome" class="control-label mb-1 ml-5">Display On Home</label>    
+                        @if($isHome == 1 )
+                            <a href="{{url('admin/brand/setHomeDisplayStatusBrand')}}/{{$id}}/0"><button type="button" class="btn btn-success">Yes</button></a>
+                        @else
+                            <a href="{{url('admin/brand/setHomeDisplayStatusBrand')}}/{{$id}}/1"><button type="button" class="btn btn-secondary">No</button></a>
+                        @endif
+                    </div>
+                </div>    
             </div>
             <input type="hidden" name="id" value="{{$id}}">
             <div>

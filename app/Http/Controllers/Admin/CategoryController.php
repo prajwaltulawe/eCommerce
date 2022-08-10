@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\category;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,6 +30,7 @@ class CategoryController extends Controller
             $result['categorySlug'] = $arr['0']->categorySlug;
             $result['categoryParentId'] = $arr['0']->categoryParentId;
             $result['categoryImage'] = $arr['0']->categoryImage;
+            $result['isHome'] = $arr['0']->isHome;
             $result['id'] = $arr['0']->id;
             $result['buttonStatus'] = "Edit Record"; 
         }
@@ -37,6 +39,7 @@ class CategoryController extends Controller
             $result['categorySlug'] = '';
             $result['categoryParentId'] = "";
             $result['categoryImage'] = "";
+            $result['isHome'] = "";
             $result['id'] = '0';
             $result['buttonStatus'] = "Add Category"; 
         }
@@ -74,6 +77,14 @@ class CategoryController extends Controller
         $model->save();
         
         $req->session()->flash('message', $msg);
+        return redirect('admin/category');
+    }
+
+    public function setHomeDisplayStatus($id = '', $status = '')
+    {
+        $model = category::find($id);   
+        $model->isHome = $status;
+        $model->save();
         return redirect('admin/category');
     }
 

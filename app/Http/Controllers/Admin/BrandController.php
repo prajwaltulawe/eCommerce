@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\brand;
 
-use App\Models\brand;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -30,12 +31,14 @@ class BrandController extends Controller
             $result['imageRequired'] = ''; 
             $result['brand'] = $arr['0']->brand; 
             $result['image'] = $arr['0']->image; 
+            $result['isHome'] = $arr['0']->isHome; 
             $result['buttonStatus'] = "Edit Brand"; 
         }
         else{
             $result['id'] = '0';
             $result['brand'] = '';
             $result['image'] = ''; 
+            $result['isHome'] = ""; 
             $result['imageRequired'] = 'required'; 
             $result['buttonStatus'] = "Add Brand"; 
         }
@@ -72,6 +75,14 @@ class BrandController extends Controller
         $model->save();
         
         $req->session()->flash('message', $msg);
+        return redirect('admin/brand');
+    }
+
+    public function setHomeDisplayStatus($id = '', $status = '')
+    {
+        $model = brand::find($id);   
+        $model->isHome = $status;
+        $model->save();
         return redirect('admin/brand');
     }
 
