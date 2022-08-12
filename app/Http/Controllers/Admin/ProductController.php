@@ -36,7 +36,7 @@ class ProductController extends Controller
             $result['brand'] = $arr['0']->brand;
             $result['model'] = $arr['0']->model;
             $result['shortDesc'] = $arr['0']->shortDesc;
-            $result['desc'] = $arr['0']->desc;
+            $result['desc'] = $arr['0']->description;
             $result['keywords'] = $arr['0']->keywords;
             $result['technicalSpecs'] = $arr['0']->technicalSpecs;
             $result['uses'] = $arr['0']->uses;
@@ -154,7 +154,7 @@ class ProductController extends Controller
         $model->brand = $req->post('brand');
         $model->model = $req->post('model');
         $model->shortDesc = $req->post('shortDesc');
-        $model->desc = $req->post('desc');
+        $model->description = $req->post('desc');
         $model->keywords = $req->post('keywords');
         $model->technicalSpecs = $req->post('technicalSpecs');
         $model->uses = $req->post('uses');
@@ -211,8 +211,10 @@ class ProductController extends Controller
                 DB::table('productimages')->insert($prodImage);
             } else {
                 $imageArr = DB::table('productimages')->where(['id'=>$prodImages[$key]])->get();
-                if (Storage::exists('/public/media/productImages/'.$imageArr[0]->attrImage)) {
-                    Storage::delete('/public/media/productImages/'.$imageArr[0]->attrImage);
+                if ($imageArr[0]->image) {
+                    if (Storage::exists('/public/media/productImages/'.$imageArr[0]->image)) {
+                        Storage::delete('/public/media/productImages/'.$imageArr[0]->image);
+                    }
                 }
                 DB::table('productimages')->where(['id'=>$prodImages[$key]])->update($prodImage);
             }

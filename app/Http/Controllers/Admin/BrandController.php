@@ -89,8 +89,10 @@ class BrandController extends Controller
     public function deleteBrand(Request $req, $id)
     {
         $imageArr = DB::table('brands')->where(['id'=>$id])->get();
-        if (Storage::exists('/public/media/brandImages/'.$imageArr[0]->attrImage)) {
-            Storage::delete('/public/media/brandImages/'.$imageArr[0]->attrImage);
+        if ($imageArr[0]->image) {
+            if (Storage::exists('/public/media/brandImages/'.$imageArr[0]->attrImage)) {
+                Storage::delete('/public/media/brandImages/'.$imageArr[0]->attrImage);
+            }
         }
         $model = brand::find($id);
         $model->delete();
