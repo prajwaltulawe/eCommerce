@@ -79,6 +79,9 @@ class FrontController extends Controller
 
         }
 
+        $result['bannerImages'] = DB::table('banner_images')
+        ->where(['status'=>1])->get();
+
 /*      echo '<pre>';
         print_r($result);
         die();  */

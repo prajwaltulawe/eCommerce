@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\TaxController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\BannerImagesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CoustomerController;
 use Illuminate\Support\Facades\Route;
@@ -92,6 +93,14 @@ route::group(['middleware'=>'adminAuth'], function(){
     route::get('admin/product/manageProduct/isDiscounted/{id}/{status}',[ProductController::class,'editDiscountStatus']);
     route::get('admin/product/manageProduct/isTrending/{id}/{status}',[ProductController::class,'editTrendingStatus']);
 
+    // BANNER IMAGES ROUTES
+    route::get('admin/bannerImages',[BannerImagesController::class,'index']);
+    route::get('admin/bannerImages/managebannerImages',[BannerImagesController::class,'manageBannerImages']);
+    route::get('admin/bannerImages/managebannerImages/{id}',[BannerImagesController::class,'manageBannerImages']);
+    route::get('admin/bannerImages/managebannerImages/{id}/{status}',[BannerImagesController::class,'manageBannerImages']);
+    route::post('admin/bannerImages/managebannerImages',[BannerImagesController::class,'manageBannerImagesProcess'])->name('bannerImages.manage');
+    route::get('admin/bannerImages/delete/{id}',[BannerImagesController::class,'deleteBannerImage']);
+
     // COUSTOMER ROUTES
     route::get('admin/coustomer',[CoustomerController::class,'index']);
     route::get('admin/coustomer/manageCoustomerStatus/{id}/{status}',[CoustomerController::class,'editCoustomerStatus']);
@@ -107,6 +116,3 @@ route::group(['middleware'=>'adminAuth'], function(){
 });
 
 route::get('/',[FrontController::class,'index']);
-
-
-
