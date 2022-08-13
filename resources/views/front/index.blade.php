@@ -118,30 +118,64 @@
               <div class="aa-product-inner">
                 <!-- start prduct navigation -->
                  <ul class="nav nav-tabs aa-products-tab">
+                  @php
+                    $loopCount=1;
+                  @endphp
                   @foreach ($homeCategories as $item)
-                    <li><a href="#{{$item->id}}" data-toggle="tab">{{$item->categoryName}}</a></li>
+                    @php
+                    $catClass = "";
+                    if ($loopCount == 1) {
+                      $catClass = "active";
+                      $loopCount++;
+                    }   
+                    @endphp
+                    <li class="{{$catClass}}"><a href="#cat{{$item->id}}" data-toggle="tab">{{$item->categoryName}}</a></li>
                   @endforeach
                   </ul>
                   <!-- Tab panes -->
                   <div class="tab-content">
-                    <div class="tab-pane fade in active" id="men">
-                      <ul class="aa-product-catg">
-                        <!-- start single product item -->
-                        <li>
-                          <figure>
-                            <a class="aa-product-img" href="#"><img src="{{asset('frontAssets/img/man/polo-shirt-2.png')}}" alt="polo shirt img"></a>
-                            <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
-                              <figcaption>
-                              <h4 class="aa-product-title"><a href="#">Polo T-Shirt</a></h4>
-                              <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
-                            </figcaption>
-                          </figure>                        
-                          <!-- product badge -->
-                          <span class="aa-badge aa-sale" href="#">SALE!</span>
-                        </li>                        
-                      </ul>
-                      <a class="aa-browse-btn" href="#">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
-                    </div>
+                    @php
+                      $loopCount=1;
+                    @endphp
+                    @foreach ($homeCategories as $item)
+                    @php
+                    $catClass = "";
+                     if ($loopCount == 1) {
+                      $catClass = "active";
+                      $loopCount++;
+                     }   
+                    @endphp
+                      <div class="tab-pane fade in {{$catClass}}" id="cat{{$item->id}}">
+                        <ul class="aa-product-catg">
+                          <!-- start single product item -->
+                          @if (isset($homeCategoriesProducts[$item->id][0]))                              
+                            @foreach ($homeCategoriesProducts[$item->id] as $prodArr)
+                              <li>
+                                <figure>
+                                  <a class="aa-product-img" href="{{url('product/'.$prodArr->slug)}}"><img src="{{asset('storage/media/productImages/'.$prodArr->image)}}" alt="polo shirt img"></a>
+                                  <a class="aa-add-card-btn"href="{{url('product/'.$prodArr->slug)}}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                    <figcaption>
+                                    <h4 class="aa-product-title"><a href="{{url('product/'.$prodArr->slug)}}">{{$prodArr->name}}</a></h4>
+                                    <span class="aa-product-price">${{$homeCategoriesProductsAttr[$prodArr->id][0]->price}}</span>
+                                    <span class="aa-product-price"><del>${{$homeCategoriesProductsAttr[$prodArr->id][0]->mrp}}</del></span>
+                                  </figcaption>
+                                </figure>                        
+                                <!-- product badge -->
+                                <span class="aa-badge aa-sale" href="#">SALE!</span>
+                              </li>
+                            @endforeach     
+                          @else
+                            <li>
+                              <figure>
+                                  <figcaption>
+                                  <h4 class="aa-product-title">No Products Available For This Category</h4>
+                                </figcaption>
+                              </figure>                        
+                            </li>
+                          @endif
+                        </ul>
+                      </div>
+                    @endforeach
                   </div>              
               </div>
             </div>
@@ -151,20 +185,6 @@
     </div>
   </section>
   <!-- / Products section -->
-  <!-- banner section -->
-  <section id="aa-banner">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">        
-          <div class="row">
-            <div class="aa-banner-area">
-            <a href="#"><img src="{{asset('frontAssets/img/fashion-banner.jpg')}}" alt="fashion banner img"></a>
-          </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
   <!-- popular section -->
   <section id="aa-popular-category">
     <div class="container">
@@ -174,72 +194,94 @@
             <div class="aa-popular-category-area">
               <!-- start prduct navigation -->
              <ul class="nav nav-tabs aa-products-tab">
-                <li class="active"><a href="#popular" data-toggle="tab">Popular</a></li>
-                <li><a href="#featured" data-toggle="tab">Featured</a></li>
-                <li><a href="#latest" data-toggle="tab">Latest</a></li>                    
+               <li class="active"><a href="#featured" data-toggle="tab">Featured</a></li>
+               <li><a href="#trending" data-toggle="tab">Trending</a></li>                    
+                <li><a href="#discounted" data-toggle="tab">Discounted</a></li>
               </ul>
               <!-- Tab panes -->
               <div class="tab-content">
                 <!-- Start men popular category -->
-                <div class="tab-pane fade in active" id="popular">
+                <div class="tab-pane fade in active" id="featured">
                   <ul class="aa-product-catg aa-popular-slider">
                     <!-- start single product item -->
-                    <li>
-                      <figure>
-                        <a class="aa-product-img" href="#"><img src="{{asset('frontAssets/img/man/polo-shirt-2.png')}}" alt="polo shirt img"></a>
-                        <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
-                         <figcaption>
-                          <h4 class="aa-product-title"><a href="#">Polo T-Shirt</a></h4>
-                          <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
-                        </figcaption>
-                      </figure>                     
-                      <!-- product badge -->
-                      <span class="aa-badge aa-sale" href="#">SALE!</span>
-                    </li>                                                                                   
+                    @if (isset($featured[0]))                              
+                      @foreach ($featured as $item)
+                        <li>
+                          <figure>
+                            <a class="aa-product-img" href="#"><img src="{{asset('storage/media/productImages/'.$item->image)}}" alt="{{$item->name}}"></a>
+                            <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                            <figcaption>
+                              <h4 class="aa-product-title"><a href="#">{{$item->name}}</a></h4>
+                              <span class="aa-product-price">${{$homeFeaturedProductsAttr[$item->id][0]->price}}</span>
+                              <span class="aa-product-price"><del>$${{$homeFeaturedProductsAttr[$item->id][0]->mrp}}</del></span>
+                            </figcaption>
+                          </figure>             
+                        </li>                            
+                      @endforeach
+                    @endif                                                       
                   </ul>
-                  <a class="aa-browse-btn" href="#">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
                 </div>
                 <!-- / popular product category -->
                 
                 <!-- start featured product category -->
-                <div class="tab-pane fade" id="featured">
+                <div class="tab-pane fade" id="trending">
                  <ul class="aa-product-catg aa-featured-slider">
                     <!-- start single product item -->
+                    @if (isset($trending[0]))                              
+                      @foreach ($trending as $item)
+                        <li>
+                          <figure>
+                            <a class="aa-product-img" href="#"><img src="{{asset('storage/media/productImages/'.$item->image)}}" alt="{{$item->name}}"></a>
+                            <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                            <figcaption>
+                              <h4 class="aa-product-title"><a href="#">{{$item->name}}</a></h4>
+                              <span class="aa-product-price">${{$homeTrendingProductsAttr[$item->id][0]->price}}</span>
+                              <span class="aa-product-price"><del>$${{$homeTrendingProductsAttr[$item->id][0]->mrp}}</del></span>
+                            </figcaption>
+                          </figure>             
+                        </li>                            
+                      @endforeach  
+                    @else
                     <li>
                       <figure>
-                        <a class="aa-product-img" href="#"><img src="{{asset('frontAssets/img/man/polo-shirt-2.png')}}" alt="polo shirt img"></a>
-                        <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
-                         <figcaption>
-                          <h4 class="aa-product-title"><a href="#">Polo T-Shirt</a></h4>
-                          <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
+                          <figcaption>
+                          <h4 class="aa-product-title">No Products Available For This Category</h4>
                         </figcaption>
-                      </figure>                     
-                      <!-- product badge -->
-                      <span class="aa-badge aa-sale" href="#">SALE!</span>
-                    </li>                                                                                   
+                      </figure>                        
+                    </li>                                           
+                  @endif                                                                                                            
                   </ul>
-                  <a class="aa-browse-btn" href="#">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
                 </div>
                 <!-- / featured product category -->
 
                 <!-- start latest product category -->
-                <div class="tab-pane fade" id="latest">
+                <div class="tab-pane fade" id="discounted">
                   <ul class="aa-product-catg aa-latest-slider">
                     <!-- start single product item -->
-                    <li>
-                      <figure>
-                        <a class="aa-product-img" href="#"><img src="{{asset('frontAssets/img/man/polo-shirt-2.png')}}" alt="polo shirt img"></a>
-                        <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
-                         <figcaption>
-                          <h4 class="aa-product-title"><a href="#">Polo T-Shirt</a></h4>
-                          <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
-                        </figcaption>
-                      </figure>                     
-                      <!-- product badge -->
-                      <span class="aa-badge aa-sale" href="#">SALE!</span>
-                    </li>                                                                                   
+                    @if (isset($discounted[0]))                              
+                    @foreach ($discounted as $item)
+                      <li>
+                        <figure>
+                          <a class="aa-product-img" href="#"><img src="{{asset('storage/media/productImages/'.$item->image)}}" alt="{{$item->name}}"></a>
+                          <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                          <figcaption>
+                            <h4 class="aa-product-title"><a href="#">{{$item->name}}</a></h4>
+                            <span class="aa-product-price">${{$homeDiscountedProductsAttr[$item->id][0]->price}}</span>
+                            <span class="aa-product-price"><del>$${{$homeDiscountedProductsAttr[$item->id][0]->mrp}}</del></span>
+                          </figcaption>
+                        </figure>             
+                      </li>   
+                    @endforeach 
+                    @else
+                      <li>
+                        <figure>
+                            <figcaption>
+                            <h4 class="aa-product-title">No Products Available For This Category</h4>
+                          </figcaption>
+                        </figure>                        
+                      </li>                                           
+                    @endif                                 
                   </ul>
-                   <a class="aa-browse-btn" href="#">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
                 </div>
                 <!-- / latest product category -->              
               </div>
@@ -261,7 +303,9 @@
         <div class="col-md-12">
           <div class="aa-client-brand-area">
             <ul class="aa-client-brand-slider">
-              <li><a href="#"><img src="{{asset('frontAssets/img/client-brand-java.png')}}" alt="java img"></a></li>
+              @foreach ($homeBrands as $item)
+                <li><a href="#"><img src="{{asset('storage/media/brandImages/'.$item->image)}}" alt="{{$item->brand}}"></a></li>
+              @endforeach
             </ul>
           </div>
         </div>
