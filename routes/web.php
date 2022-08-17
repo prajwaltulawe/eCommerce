@@ -13,12 +13,10 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CoustomerController;
 use Illuminate\Support\Facades\Route;
 
-// FRONT ROUTES
-use App\Http\Controllers\Front\FrontController;
-
 route::get('admin',[AdminController::class,'index']);
 route::post('admin/auth',[AdminController::class,'auth'])->name('admin.auth');
 
+// ADMIN ROUTES
 route::group(['middleware'=>'adminAuth'], function(){
     // ADMIN DASHBOARD
     route::get('admin/dashboard',[AdminController::class,'dashboard']);
@@ -115,4 +113,7 @@ route::group(['middleware'=>'adminAuth'], function(){
     });
 });
 
+// FRONT ROUTES
+use App\Http\Controllers\Front\FrontController;
 route::get('/',[FrontController::class,'index']);
+route::get('/product/{slug}',[FrontController::class,'prdouctDisplay']);

@@ -162,10 +162,10 @@
                       @foreach ($featured as $item)
                         <li>
                           <figure>
-                            <a class="aa-product-img" href="#"><img src="{{asset('storage/media/productImages/'.$item->image)}}" alt="{{$item->name}}"></a>
-                            <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                            <a class="aa-product-img" href="/product/{{$item->slug}}"><img src="{{asset('storage/media/productImages/'.$item->image)}}" alt="{{$item->name}}"></a>
+                            <a class="aa-add-card-btn"href="/product/{{$item->slug}}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                             <figcaption>
-                              <h4 class="aa-product-title"><a href="#">{{$item->name}}</a></h4>
+                              <h4 class="aa-product-title"><a href="/product/{{$item->slug}}">{{$item->name}}</a></h4>
                               <span class="aa-product-price">${{$homeFeaturedProductsAttr[$item->id][0]->price}}</span>
                               <span class="aa-product-price"><del>$${{$homeFeaturedProductsAttr[$item->id][0]->mrp}}</del></span>
                             </figcaption>
@@ -185,10 +185,10 @@
                       @foreach ($trending as $item)
                         <li>
                           <figure>
-                            <a class="aa-product-img" href="#"><img src="{{asset('storage/media/productImages/'.$item->image)}}" alt="{{$item->name}}"></a>
-                            <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                            <a class="aa-product-img" href="/product/{{$item->slug}}"><img src="{{asset('storage/media/productImages/'.$item->image)}}" alt="{{$item->name}}"></a>
+                            <a class="aa-add-card-btn"href="/product/{{$item->slug}}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                             <figcaption>
-                              <h4 class="aa-product-title"><a href="#">{{$item->name}}</a></h4>
+                              <h4 class="aa-product-title"><a href="/product/{{$item->slug}}">{{$item->name}}</a></h4>
                               <span class="aa-product-price">${{$homeTrendingProductsAttr[$item->id][0]->price}}</span>
                               <span class="aa-product-price"><del>$${{$homeTrendingProductsAttr[$item->id][0]->mrp}}</del></span>
                             </figcaption>
@@ -216,10 +216,10 @@
                     @foreach ($discounted as $item)
                       <li>
                         <figure>
-                          <a class="aa-product-img" href="#"><img src="{{asset('storage/media/productImages/'.$item->image)}}" alt="{{$item->name}}"></a>
-                          <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                          <a class="aa-product-img" href="/product/{{$item->slug}}"><img src="{{asset('storage/media/productImages/'.$item->image)}}" alt="{{$item->name}}"></a>
+                          <a class="aa-add-card-btn"href="/product/{{$item->slug}}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                           <figcaption>
-                            <h4 class="aa-product-title"><a href="#">{{$item->name}}</a></h4>
+                            <h4 class="aa-product-title"><a href="/product/{{$item->slug}}">{{$item->name}}</a></h4>
                             <span class="aa-product-price">${{$homeDiscountedProductsAttr[$item->id][0]->price}}</span>
                             <span class="aa-product-price"><del>$${{$homeDiscountedProductsAttr[$item->id][0]->mrp}}</del></span>
                           </figcaption>

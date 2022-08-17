@@ -82,10 +82,13 @@ class FrontController extends Controller
         $result['bannerImages'] = DB::table('banner_images')
         ->where(['status'=>1])->get();
 
-/*      echo '<pre>';
-        print_r($result);
-        die();  */
+
 
         return view('front.index', $result);    
+    }
+
+    public function prdouctDisplay(Request $req, $slug)
+    {            
+        return view('front.product');
     }
 }
