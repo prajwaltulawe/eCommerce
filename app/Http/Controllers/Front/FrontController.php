@@ -88,7 +88,35 @@ class FrontController extends Controller
     }
 
     public function prdouctDisplay(Request $req, $slug)
-    {            
-        return view('front.product');
+    {          
+        
+        $result['productInfo'] = DB::table('products')
+        ->where(['slug'=>$slug])
+        ->get();
+
+        foreach($result['productInfo'] as $list){
+            $result['productsAttr'][$list->id] = 
+            DB::table('productattr')
+                ->leftJoin('sizes','sizes.id',"=","productattr.size") 
+                ->leftJoin('colors','colors.id',"=","productattr.color") 
+                ->where(['productattr.productId'=>$list->id])
+                ->get();
+        }
+
+        $result['relatedProducts'] = DB::table('products')
+        ->where(['categoryId'=>$result['productInfo'][0]->categoryId])
+        ->where('slug','!=',$slug)
+        ->get();
+
+        foreach($result['relatedProducts'] as $list){
+            $result['relatedProductsAttr'][$list->id] = 
+            DB::table('productattr')
+                ->leftJoin('sizes','sizes.id',"=","productattr.size") 
+                ->leftJoin('colors','colors.id',"=","productattr.color") 
+                ->where(['productattr.productId'=>$list->id])
+                ->get();
+        }
+
+        return view('front.product', $result);
     }
 }
