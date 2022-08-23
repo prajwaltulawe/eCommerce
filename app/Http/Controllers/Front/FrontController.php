@@ -91,8 +91,8 @@ class FrontController extends Controller
     {          
         
         $result['productInfo'] = DB::table('products')
-        ->where(['slug'=>$slug])
-        ->get();
+            ->where(['slug'=>$slug])
+            ->get();
 
         foreach($result['productInfo'] as $list){
             $result['productsAttr'][$list->id] = 
@@ -104,9 +104,9 @@ class FrontController extends Controller
         }
 
         $result['relatedProducts'] = DB::table('products')
-        ->where(['categoryId'=>$result['productInfo'][0]->categoryId])
-        ->where('slug','!=',$slug)
-        ->get();
+            ->where(['categoryId'=>$result['productInfo'][0]->categoryId])
+            ->where('slug','!=',$slug)
+            ->get();
 
         foreach($result['relatedProducts'] as $list){
             $result['relatedProductsAttr'][$list->id] = 
@@ -116,6 +116,10 @@ class FrontController extends Controller
                 ->where(['productattr.productId'=>$list->id])
                 ->get();
         }
+
+        $result['productImages'] = DB::table('productimages')
+            ->where(['productId'=>$result['productInfo'][0]->id])
+            ->get();
 
         return view('front.product', $result);
     }

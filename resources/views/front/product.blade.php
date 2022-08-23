@@ -19,15 +19,15 @@
                             <img src="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" class="simpleLens-big-image"></a></div>
                       </div>
                       <div class="simpleLens-thumbnails-container">
-                          <a data-big-image="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" data-lens-image="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" class="simpleLens-thumbnail-wrapper" href="#">
-                            <img src="img/view-slider/thumbnail/polo-shirt-1.png">
-                          </a>                                    
-                          <a data-big-image="img/view-slider/medium/polo-shirt-3.png" data-lens-image="img/view-slider/large/polo-shirt-3.png" class="simpleLens-thumbnail-wrapper" href="#">
-                            <img src="img/view-slider/thumbnail/polo-shirt-3.png">
+                        <a data-big-image="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" data-lens-image="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" class="simpleLens-thumbnail-wrapper" href="#">
+                          <img src="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" style="width: 50px">
+                        </a>
+                        @foreach ($productImages as $item)    
+                          <a data-big-image="{{asset('storage/media/productImages/'.$item->image)}}" data-lens-image="{{asset('storage/media/productImages/'.$item->image)}}" class="simpleLens-thumbnail-wrapper" href="#">
+                            <img src="{{asset('storage/media/productImages/'.$item->image)}}" style="width: 50px">
                           </a>
-                          <a data-big-image="img/view-slider/medium/polo-shirt-4.png" data-lens-image="img/view-slider/large/polo-shirt-4.png" class="simpleLens-thumbnail-wrapper" href="#">
-                            <img src="img/view-slider/thumbnail/polo-shirt-4.png">
-                          </a>
+                        @endforeach  
+
                       </div>
                     </div>
                   </div>
@@ -43,16 +43,19 @@
                     <p>{{$productInfo[0]->shortDesc}}</p>
                     <h4>Size</h4>
                     <div class="aa-prod-view-size">
-                    @foreach ($productsAttr as $item)
-                        <a href="#">{{$productsAttr[$productInfo[0]->id][0]->size}}</a>
+                    <?php $i=0 ?>
+                    @foreach ($productsAttr[$productInfo[0]->id] as $item)
+                      <a href="#">{{$productsAttr[$productInfo[0]->id][$i]->size}}</a>
+                      <?php $i++; ?>
                     @endforeach
                     </div>
                     <h4>Color</h4>
+                    <?php $i=0 ?>
                     <div class="aa-color-tag">
-                    @foreach ($productsAttr as $item)
-                        <a href="#" class="aa-color-{{strtolower($productsAttr[$productInfo[0]->id][0]->color)}}"></a>               
-                    @endforeach
-                    
+                    @foreach ($productsAttr[$productInfo[0]->id] as $item)
+                      <a href="#" class="aa-color-{{strtolower($productsAttr[$productInfo[0]->id][$i]->color)}}"></a>               
+                      <?php $i++; ?>
+                    @endforeach    
                     </div>
                     <div class="aa-prod-quantity">
                       <form action="">
