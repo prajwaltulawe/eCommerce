@@ -15,8 +15,9 @@
                     <div id="demo-1" class="simpleLens-gallery-container">
                       <div class="simpleLens-container">
                         <div class="simpleLens-big-image-container">
-                            <a data-lens-image="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" class="simpleLens-lens-image">
-                            <img src="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" class="simpleLens-big-image"></a></div>
+                          <a data-lens-image="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" class="simpleLens-lens-image">
+                          <img src="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" class="simpleLens-big-image"></a>
+                        </div>
                       </div>
                       <div class="simpleLens-thumbnails-container">
                         <a data-big-image="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" data-lens-image="{{asset('storage/media/productImages/'.$productInfo[0]->image)}}" class="simpleLens-thumbnail-wrapper" href="#">
@@ -53,7 +54,7 @@
                     <?php $i=0 ?>
                     <div class="aa-color-tag">
                     @foreach ($productsAttr[$productInfo[0]->id] as $item)
-                      <a href="#" class="aa-color-{{strtolower($productsAttr[$productInfo[0]->id][$i]->color)}}"></a>               
+                      <a href="javascript:void(0)" class="aa-color-{{strtolower($productsAttr[$productInfo[0]->id][$i]->color)}}" onclick="colorImgChange('{{asset('storage/media/productAttrImages/'.$productsAttr[$productInfo[0]->id][$i]->attrImage)}}')"></a>               
                       <?php $i++; ?>
                     @endforeach    
                     </div>

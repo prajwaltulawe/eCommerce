@@ -21,6 +21,7 @@
   11. PRELOADER
   12. GRID AND LIST LAYOUT CHANGER 
   13. RELATED ITEM SLIDER (SLICK SLIDER)
+  14. ON COLOR CLICK IMG CHANGE
 
   
 **/
@@ -357,3 +358,14 @@ jQuery(function($){
     
 });
 
+  /* ----------------------------------------------------------- */
+  /*  14. ON COLOR CLICK IMG CHANGE
+  /* ----------------------------------------------------------- */     
+
+function colorImgChange(img){
+  jQuery('.simpleLens-container')
+  .html(`<div class="simpleLens-big-image-container">
+  <a data-lens-image="${img}" class="simpleLens-lens-image">
+  <img src="${img}" class="simpleLens-big-image"></a>
+</div>`);
+}
