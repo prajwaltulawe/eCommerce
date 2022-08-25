@@ -22,7 +22,8 @@
   12. GRID AND LIST LAYOUT CHANGER 
   13. RELATED ITEM SLIDER (SLICK SLIDER)
   14. ON COLOR CLICK IMG CHANGE
-
+  15. ON SIZE CLICK COLOR CHANGE
+  16. CART CONDITIONS
   
 **/
 
@@ -99,7 +100,6 @@ jQuery(function($){
       ]
     }); 
 
-  
   /* ----------------------------------------------------------- */
   /*  5. FEATURED PRODUCT SLIDER (SLICK SLIDER)
   /* ----------------------------------------------------------- */      
@@ -271,8 +271,6 @@ jQuery(function($){
       }
     });
 
-
-    
   /* ----------------------------------------------------------- */
   /*  10. SCROLL TOP BUTTON
   /* ----------------------------------------------------------- */
@@ -356,16 +354,53 @@ jQuery(function($){
       ]
     }); 
     
-});
+   });
 
   /* ----------------------------------------------------------- */
   /*  14. ON COLOR CLICK IMG CHANGE
   /* ----------------------------------------------------------- */     
 
-function colorImgChange(img){
+  function colorImgChange(img,color){
   jQuery('.simpleLens-container')
   .html(`<div class="simpleLens-big-image-container">
   <a data-lens-image="${img}" class="simpleLens-lens-image">
-  <img src="${img}" class="simpleLens-big-image"></a>
-</div>`);
-}
+  <img src="${img}" class="simpleLens-big-image"></a></div>`);
+  jQuery('#selectedColorId').val(color);
+  }
+
+  /* ----------------------------------------------------------- */
+  /*  15. ON SIZE CLICK COLOR CHANGE
+  /* ----------------------------------------------------------- */     
+
+  function changeColor(size){
+    jQuery('.prod-color').hide();
+    jQuery('.prod-color-id-'+size).show();
+    jQuery('.size-button').css('border','0px');
+    jQuery('#'+size).css('border','1px solid black');
+    jQuery('#selectedSizeId').val(size);
+  }
+
+  /* ----------------------------------------------------------- */
+  /*  16. CART CONDITIONS
+  /* ----------------------------------------------------------- */     
+
+  function checkCartCondition(){
+    jQuery('#cartAlertMsg').html('');
+    var selectedColor = jQuery('#selectedColorId').val();
+    var selectedSize = jQuery('#selectedSizeId').val();
+    jQuery('#pqty').val(jQuery('#qty').val());
+    if (selectedColor == "") {
+      jQuery('#cartAlertMsg').html('Please select color');
+    } else if(selectedSize == ""){
+      jQuery('#cartAlertMsg').html('Please select size');
+    } else{
+      jQuery.ajax({
+        url: '/addToCart',
+        data:jQuery('#cartData').serialize(),
+        type: 'post',
+        sucess: function(result){
+          console.log(result);
+        }
+      });
+    }
+  }

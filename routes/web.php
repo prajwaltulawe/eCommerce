@@ -117,3 +117,4 @@ route::group(['middleware'=>'adminAuth'], function(){
 use App\Http\Controllers\Front\FrontController;
 route::get('/',[FrontController::class,'index']);
 route::get('/product/{slug}',[FrontController::class,'prdouctDisplay']);
+route::post('/addToCart',[FrontController::class,'addToCart']);

@@ -42,31 +42,41 @@
                       <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
                     </div>
                     <p>{{$productInfo[0]->shortDesc}}</p>
-                    <h4>Size</h4>
-                    <div class="aa-prod-view-size">
-                    <?php $i=0 ?>
-                    @foreach ($productsAttr[$productInfo[0]->id] as $item)
-                      <a href="#">{{$productsAttr[$productInfo[0]->id][$i]->size}}</a>
-                      <?php $i++; ?>
-                    @endforeach
-                    </div>
-                    <h4>Color</h4>
-                    <?php $i=0 ?>
-                    <div class="aa-color-tag">
-                    @foreach ($productsAttr[$productInfo[0]->id] as $item)
-                      <a href="javascript:void(0)" class="aa-color-{{strtolower($productsAttr[$productInfo[0]->id][$i]->color)}}" onclick="colorImgChange('{{asset('storage/media/productAttrImages/'.$productsAttr[$productInfo[0]->id][$i]->attrImage)}}')"></a>               
-                      <?php $i++; ?>
-                    @endforeach    
-                    </div>
-                    <div class="aa-prod-quantity">
-                      <form action="">
-                        <select id="" name="">
-                          <option selected="1" value="0">1</option>
-                          <option value="1">2</option>
-                          <option value="2">3</option>
-                          <option value="3">4</option>
-                          <option value="4">5</option>
-                          <option value="5">6</option>
+
+                    @if (isset($productsAttr[$productInfo[0]->id][0]))      
+                      <h4>Size</h4>
+                      <div class="aa-prod-view-size">
+                      <?php 
+                        $arrSize=[];
+                        foreach ($productsAttr[$productInfo[0]->id] as $attr) {
+                          $arrSize[]=$attr->size;
+                        }
+                        $arrSize = array_unique($arrSize);
+                      ?>
+                      @foreach ($arrSize as $item)
+                        <a href="javascript:void(0)" class="size-button" id="{{$item}}" onclick="changeColor('{{$item}}')">{{$item}}</a>
+                      @endforeach
+                      </div>
+                    @endif  
+                    @if (isset($productsAttr[$productInfo[0]->id][0]))      
+                      <h4>Color</h4>
+                      <?php $i=0 ?>
+                      <div class="aa-color-tag">
+                      @foreach ($productsAttr[$productInfo[0]->id] as $item)
+                        <a href="javascript:void(0)" class="aa-color-{{strtolower($productsAttr[$productInfo[0]->id][$i]->color)}} prod-color prod-color-id-{{$productsAttr[$productInfo[0]->id][$i]->size}}" onclick="colorImgChange('{{asset('storage/media/productAttrImages/'.$productsAttr[$productInfo[0]->id][$i]->attrImage)}}','{{$productsAttr[$productInfo[0]->id][$i]->color}}')"></a>               
+                        <?php $i++; ?>
+                      @endforeach    
+                      </div>
+                    @endif
+                      <div class="aa-prod-quantity" >
+                      <form action="" >
+                        <select id="qty" name="">
+                          <option selected="1" value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
                         </select>
                       </form>
                       <p class="aa-prod-category">
@@ -74,9 +84,8 @@
                       </p>
                     </div>
                     <div class="aa-prod-view-bottom">
-                      <a class="aa-add-to-cart-btn" href="#">Add To Cart</a>
-                      <a class="aa-add-to-cart-btn" href="#">Wishlist</a>
-                      <a class="aa-add-to-cart-btn" href="#">Compare</a>
+                      <a class="aa-add-to-cart-btn" href="javascript:void(0)" onclick="checkCartCondition()">Add To Cart</a>
+                      <span id="cartAlertMsg"> </span>
                     </div>
                   </div>
                 </div>
@@ -208,5 +217,13 @@
       </div>
     </div>
   </section>
+  <form action="" id="cartData">
+    @csrf
+    <input type="hidden" id="pqty" name="pqty" value="">
+    <input type="hidden" id="productId" name="productId" value="{{$productInfo[0]->id}}">
+    <input type="hidden" id="selectedSizeId" name="selectedSizeId" value="">
+    <input type="hidden" id="selectedColorId" name="selectedColorId" value="">
+  </form> 
+                    
   <!-- / product category -->
 @endsection

@@ -123,4 +123,59 @@ class FrontController extends Controller
 
         return view('front.product', $result);
     }
+    
+    public function addToCart(Request $req)
+    {     
+        if ($req->session()->has('FRONT_USER_ID')) {
+            $uid = $req->session()->get('FRONT_USER_ID');
+            $userType = "Resgistered";
+        } else {
+            $uid = getUserTempId();
+            $userType = "Non-Registered";    
+        }
+
+        $qty = $req->post('pqty');
+        $productId = $req->post('productId');
+        $sizeId = $req->post('selectedSizeId');
+        $colorId = $req->post('selectedColorId');
+
+        $result = DB::table('productattr')
+            ->select('productattr.id')
+            ->leftJoin('sizes','sizes.id',"=","productattr.size") 
+            ->leftJoin('colors','colors.id',"=","productattr.color") 
+            ->where(['productId'=>$productId])
+            ->where(['sizes.size'=>$sizeId])
+            ->where(['colors.color'=>$colorId])
+            ->get();
+
+        $productAttrId = $result[0]->id;
+        
+        $check = DB::table('cart')
+            ->where(['userId'=>$uid])
+            ->where(['userType'=>$userType])
+            ->where(['prodId'=>$productId])
+            ->where(['prodAttrId'=>$productAttrId])
+            ->get();
+        
+        if (isset($check[0])) {
+            $updateId = $check[0]->id;
+            DB::table('cart')
+                ->where(['id'=>$updateId])
+                ->update(['qty'=>$qty]);
+            $msg = "Updated";
+        } else {
+            $id = DB::table('cart')
+                ->insertGetId([
+                    'userId'=>$uid,
+                    'userType'=>$userType,
+                    'prodId'=>$productId,
+                    'prodAttrId'=>$productAttrId,
+                    'qty'=>$qty,
+                ]);
+            $msg = "Added";
+        }
+
+        return response()->json(['msg'=>$msg]);
+        
+    }
 }
